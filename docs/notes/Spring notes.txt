@@ -1,0 +1,16 @@
+Spring notes:
+
+1. Use LocalDateTime or LocalDate in JPA entities
+
+You can implement a JPA AttributeConverter and convert the Java 8 class into one that is supported by Hibernate. 
+
+This approach does not use any Hibernate-specific APIs and is portable to other JPA implementations but it is a little complicated.
+
+Link:
+https://www.thoughts-on-java.org/persist-localdate-localdatetime-jpa/
+
+
+Or you can use the Hibernate-specific Java 8 support which was introduced with Hibernate 5. This approach is not portable to other JPA implementations but much easier to use as I will show you in this post.
+
+Link:
+https://www.thoughts-on-java.org/hibernate-5-date-and-time/

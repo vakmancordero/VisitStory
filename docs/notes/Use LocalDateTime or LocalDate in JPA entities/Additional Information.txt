@@ -1,0 +1,7 @@
+Question:
+
+In my case, the LocalDateTime and LocalDate persisted even without using the hibernate-java8 dependency. I am using the Spring-data-jpa and hibernate as it’s implementation. Is it handled by Spring?
+
+Answer:
+
+Yes, Spring Data JPA provides a set of AttributeConverter to handle the classes of the Date and Time API. That’s the same approach as I explained here: How to persist LocalDate and LocalDateTime with JPA
