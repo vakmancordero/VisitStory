@@ -9,8 +9,8 @@ import javax.persistence.Table;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Entity(name = "user")
-@Table(name = "User", schema = "visitstory")
+@Entity(name = "User")
+@Table(name = "User", schema = "visitStory")
 public class User extends BaseEntity {
 
     private String name;

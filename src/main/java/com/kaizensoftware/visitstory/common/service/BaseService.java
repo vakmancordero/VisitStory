@@ -1,7 +1,7 @@
 package com.kaizensoftware.visitstory.common.service;
 
 import com.kaizensoftware.visitstory.common.persistence.model.BaseEntity;
-import com.kaizensoftware.visitstory.common.persistence.repository.BaseRepository;
+import com.kaizensoftware.visitstory.common.persistence.repository.SoftDeleteRepository;
 import com.kaizensoftware.visitstory.common.util.ConvertUtil;
 import com.kaizensoftware.visitstory.common.util.ObjectUtil;
 
@@ -16,7 +16,7 @@ import javax.persistence.EntityNotFoundException;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Objects.requireNonNull;
 
-public abstract class BaseService<R extends BaseRepository, E extends BaseEntity> {
+public abstract class BaseService<R extends SoftDeleteRepository, E extends BaseEntity> {
 
     @Autowired
     protected R repository;
@@ -29,7 +29,8 @@ public abstract class BaseService<R extends BaseRepository, E extends BaseEntity
 
     private Class<E> clazz;
 
-    public Class<E> clazz() {
+    @SuppressWarnings("unchecked")
+    private Class<E> clazz() {
 
         if (this.clazz == null) {
 
@@ -53,6 +54,7 @@ public abstract class BaseService<R extends BaseRepository, E extends BaseEntity
         return outDTO;
     }
 
+    @SuppressWarnings("unchecked")
     protected <T> T findById(long id, Class<T> clazz) throws Exception {
 
         checkArgument(id != 0, "The given id must not be null!");
@@ -62,11 +64,11 @@ public abstract class BaseService<R extends BaseRepository, E extends BaseEntity
         optionalEntity.orElseThrow(() -> new EntityNotFoundException("Entity with id: " + id + "does not exists"));
 
         E entity = optionalEntity.get();
-        T optionalDTO = convertUtils.convert(entity, clazz);
 
-        return optionalDTO;
+        return convertUtils.convert(entity, clazz);
     }
 
+    @SuppressWarnings("unchecked")
     protected <T> T findInactiveById(long id, Class<T> clazz) throws Exception {
 
         checkArgument(id != 0, "The given id must not be null!");
@@ -76,25 +78,21 @@ public abstract class BaseService<R extends BaseRepository, E extends BaseEntity
         optionalEntity.orElseThrow(() -> new EntityNotFoundException("Entity with id: " + id + "does not exists"));
 
         E entity = optionalEntity.get();
-        T optionalDTO = convertUtils.convert(entity, clazz);
 
-        return optionalDTO;
+        return convertUtils.convert(entity, clazz);
     }
 
+    @SuppressWarnings("unchecked")
     protected <T> List<T> findAll(Class<T> clazz) {
-
-        List<T> outDTOList = convertUtils.convert(repository.findAll(), clazz);
-
-        return outDTOList;
+        return convertUtils.convert(repository.findAll(), clazz);
     }
 
+    @SuppressWarnings("unchecked")
     protected <T> List<T> findAllInactive(Class<T> clazz) {
-
-        List<T> outDTOList = convertUtils.convert(repository.findAllInactive(), clazz);
-
-        return outDTOList;
+        return convertUtils.convert(repository.findAllInactive(), clazz);
     }
 
+    @SuppressWarnings("unchecked")
     protected <T, K> T update(long id, K updateDTO, Class<T> clazz, boolean partialUpdate) throws Exception {
 
         checkArgument(id != 0);
@@ -114,10 +112,10 @@ public abstract class BaseService<R extends BaseRepository, E extends BaseEntity
 
         repository.saveAndFlush(entity);
 
-        T outDTO = convertUtils.convert(entity, clazz);
-        return outDTO;
+        return convertUtils.convert(entity, clazz);
     }
 
+    @SuppressWarnings("unchecked")
     protected <T> T delete(long id, Class<T> clazz, boolean hardDelete) throws Exception {
 
         checkArgument(id != 0, "The given id must not be null!");
@@ -134,9 +132,7 @@ public abstract class BaseService<R extends BaseRepository, E extends BaseEntity
             repository.softDelete(entity);
         }
 
-        T outDTO = convertUtils.convert(entity, clazz);
-
-        return outDTO;
+        return convertUtils.convert(entity, clazz);
     }
 
     protected void deleteAll() throws Exception {

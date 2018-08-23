@@ -26,11 +26,11 @@ public abstract class BaseEntity implements Serializable {
     @LastModifiedDate
     private LocalDateTime modifiedAt;
 
-    private boolean isActive;
+    private boolean deleted;
 
     @PrePersist
     public void setAuditInfo() {
-        this.isActive = true;
+        this.deleted = true;
     }
 
 }

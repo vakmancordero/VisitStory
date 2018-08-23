@@ -13,27 +13,27 @@ import java.util.List;
 public class UserService extends BaseService<UserRepo, User> {
 
     public List<User> findAllUsers() {
-        return super.findAll(User.class);
+        return findAll(User.class);
     }
 
     public User findUserById(Long id) throws Exception {
-        return super.findById(id, User.class);
+        return findById(id, User.class);
     }
 
     public List<User> findAllUsersInactive() {
-        return super.findAllInactive(User.class);
+        return findAllInactive(User.class);
     }
 
     public User findInactiveUserById(Long id) throws Exception {
-        return super.findInactiveById(id, User.class);
+        return findInactiveById(id, User.class);
     }
 
     public User createUser(UserInput userInput) throws Exception {
-        return super.create(userInput, User.class);
+        return create(userInput, User.class);
     }
 
     public void deleteAllUsers() throws Exception {
-        super.deleteAll();
+        deleteAll();
     }
 
 }
