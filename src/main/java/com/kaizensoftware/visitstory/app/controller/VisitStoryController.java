@@ -1,7 +1,8 @@
 package com.kaizensoftware.visitstory.app.controller;
 
 import com.kaizensoftware.visitstory.app.dto.user.UserInput;
-import com.kaizensoftware.visitstory.app.service.UserService;
+import com.kaizensoftware.visitstory.app.dto.vs.VisitStoryCreateDTO;
+import com.kaizensoftware.visitstory.app.service.VisitStoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,16 +14,16 @@ import lombok.RequiredArgsConstructor;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/visit-story")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class UserController {
+public class VisitStoryController {
 
-    private final UserService userService;
+    private final VisitStoryService vsService;
 
     @PostMapping
-    public ResponseEntity create(@RequestBody @Valid UserInput userInput) {
+    public ResponseEntity makeVisitStory(@RequestBody @Valid VisitStoryCreateDTO visitStory) {
         try {
-            return ResponseEntity.ok(userService.createUser(userInput));
+            return ResponseEntity.ok(vsService.makeVisitStory(visitStory));
         } catch(Exception ex) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
         }

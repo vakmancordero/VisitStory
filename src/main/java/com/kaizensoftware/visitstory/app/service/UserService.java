@@ -7,33 +7,15 @@ import com.kaizensoftware.visitstory.app.persistence.model.User;
 import com.kaizensoftware.visitstory.common.service.BaseService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class UserService extends BaseService<UserRepo, User> {
-
-    public List<User> findAllUsers() {
-        return findAll(User.class);
-    }
 
     public User findUserById(Long id) throws Exception {
         return findById(id, User.class);
     }
 
-    public List<User> findAllUsersInactive() {
-        return findAllInactive(User.class);
-    }
-
-    public User findInactiveUserById(Long id) throws Exception {
-        return findInactiveById(id, User.class);
-    }
-
     public User createUser(UserInput userInput) throws Exception {
         return create(userInput, User.class);
-    }
-
-    public void deleteAllUsers() throws Exception {
-        deleteAll();
     }
 
 }
