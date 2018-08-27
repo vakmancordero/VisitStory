@@ -1,6 +1,6 @@
 package com.kaizensoftware.visitstory.app.service;
 
-import com.kaizensoftware.visitstory.app.dto.vs.VisitStoryCreateDTO;
+import com.kaizensoftware.visitstory.app.dto.vs.create.VisitStoryCreateDTO;
 import com.kaizensoftware.visitstory.app.persistence.model.VisitStory;
 import com.kaizensoftware.visitstory.app.persistence.repository.VisitStoryRepo;
 import com.kaizensoftware.visitstory.common.service.BaseService;

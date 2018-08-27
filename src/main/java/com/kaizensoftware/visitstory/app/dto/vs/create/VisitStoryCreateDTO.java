@@ -1,4 +1,4 @@
-package com.kaizensoftware.visitstory.app.dto.vs;
+package com.kaizensoftware.visitstory.app.dto.vs.create;
 
 import lombok.Data;
 

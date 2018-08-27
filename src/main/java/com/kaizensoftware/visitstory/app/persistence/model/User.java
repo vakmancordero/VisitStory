@@ -4,9 +4,8 @@ import com.kaizensoftware.visitstory.common.persistence.model.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -24,5 +23,8 @@ public class User extends BaseEntity {
 
     @Column(columnDefinition = "TEXT")
     private String about;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<VisitStory> visitStories;
 
 }
