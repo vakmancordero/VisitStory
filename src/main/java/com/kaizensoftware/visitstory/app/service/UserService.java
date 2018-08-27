@@ -1,6 +1,6 @@
 package com.kaizensoftware.visitstory.app.service;
 
-import com.kaizensoftware.visitstory.app.dto.user.UserInput;
+import com.kaizensoftware.visitstory.app.dto.user.create.*;
 import com.kaizensoftware.visitstory.app.persistence.repository.UserRepo;
 import com.kaizensoftware.visitstory.app.persistence.model.User;
 
@@ -14,7 +14,7 @@ public class UserService extends BaseService<UserRepo, User> {
         return findById(id, User.class);
     }
 
-    public User createUser(UserInput userInput) throws Exception {
+    public User createUser(UserCreateDTO userInput) throws Exception {
         return create(userInput, User.class);
     }
 

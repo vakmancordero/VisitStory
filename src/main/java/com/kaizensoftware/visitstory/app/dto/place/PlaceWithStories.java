@@ -1,6 +1,6 @@
 package com.kaizensoftware.visitstory.app.dto.place;
 
-import com.kaizensoftware.visitstory.app.dto.vs.VisitStoryDTO;
+import com.kaizensoftware.visitstory.app.dto.visit_story.VisitStoryDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

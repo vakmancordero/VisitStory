@@ -30,7 +30,7 @@ public abstract class BaseEntity implements Serializable {
 
     @PrePersist
     public void setAuditInfo() {
-        this.deleted = true;
+        this.deleted = false;
     }
 
 }

@@ -1,6 +1,6 @@
 package com.kaizensoftware.visitstory.app.controller;
 
-import com.kaizensoftware.visitstory.app.dto.user.UserInput;
+import com.kaizensoftware.visitstory.app.dto.user.create.*;
 import com.kaizensoftware.visitstory.app.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity create(@RequestBody @Valid UserInput userInput) {
+    public ResponseEntity create(@RequestBody @Valid UserCreateDTO userInput) {
         try {
             return ResponseEntity.ok(userService.createUser(userInput));
         } catch(Exception ex) {

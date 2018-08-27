@@ -8,6 +8,4 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class PlaceUpdateDTO extends PlaceDTO {
 
-    private Long id;
-
 }

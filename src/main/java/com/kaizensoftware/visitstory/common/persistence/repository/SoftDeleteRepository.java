@@ -26,10 +26,10 @@ public interface SoftDeleteRepository<T extends BaseEntity, ID extends Serializa
 
     @Override
     @Transactional
-    @Query("select e from #{#entityName} e where e.deleted = true")
+    @Query("select e from #{#entityName} e where e.deleted = false")
     List<T> findAll();
 
-    @Query("select e from #{#entityName} e where e.deleted = false")
+    @Query("select e from #{#entityName} e where e.deleted = true")
     List<T> findAllInactive();
 
     @Override
@@ -49,7 +49,7 @@ public interface SoftDeleteRepository<T extends BaseEntity, ID extends Serializa
     }
 
     @Modifying
-    @Query("update #{#entityName} e set e.deleted = false where e.id = ?1")
+    @Query("update #{#entityName} e set e.deleted = true where e.id = ?1")
     void softDeleteById(Long id);
 
     default void softDelete(T entity) {
