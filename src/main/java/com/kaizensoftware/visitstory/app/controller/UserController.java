@@ -1,7 +1,6 @@
 package com.kaizensoftware.visitstory.app.controller;
 
 import com.kaizensoftware.visitstory.app.dto.user.create.*;
-import com.kaizensoftware.visitstory.app.persistence.model.User;
 import com.kaizensoftware.visitstory.app.service.UserService;
 
 import com.kaizensoftware.visitstory.common.controller.BaseController;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -22,11 +22,11 @@ public class UserController extends BaseController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity create(@RequestBody @Valid UserCreateDTO userInput, BindingResult br) throws Exception {
-
+    public ResponseEntity create(@RequestBody @Valid UserCreateDTO userInput,
+                                 BindingResult br, HttpServletRequest request) throws Exception {
         throwErrors(br);
 
-        return ResponseEntity.ok(userService.createUser(userInput));
+        return ResponseEntity.ok(userService.createUser(userInput, request));
     }
 
 }

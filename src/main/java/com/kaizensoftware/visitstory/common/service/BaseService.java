@@ -22,10 +22,10 @@ public abstract class BaseService<R extends SoftDeleteRepository, E extends Base
     protected R repository;
 
     @Autowired
-    protected ConvertUtil convertUtils;
+    protected ConvertUtil convertUtil;
 
     @Autowired
-    protected ObjectUtil objectUtils;
+    protected ObjectUtil objectUtil;
 
     private Class<E> clazz;
 
@@ -48,8 +48,8 @@ public abstract class BaseService<R extends SoftDeleteRepository, E extends Base
 
         requireNonNull(createDTO);
 
-        E entity = convertUtils.convert(createDTO, this.clazz());
-        K outDTO = convertUtils.convert(repository.saveAndFlush(entity), clazz);
+        E entity = convertUtil.convert(createDTO, this.clazz());
+        K outDTO = convertUtil.convert(repository.saveAndFlush(entity), clazz);
 
         return outDTO;
     }
@@ -65,7 +65,7 @@ public abstract class BaseService<R extends SoftDeleteRepository, E extends Base
 
         E entity = optionalEntity.get();
 
-        return convertUtils.convert(entity, clazz);
+        return convertUtil.convert(entity, clazz);
     }
 
     @SuppressWarnings("unchecked")
@@ -79,17 +79,17 @@ public abstract class BaseService<R extends SoftDeleteRepository, E extends Base
 
         E entity = optionalEntity.get();
 
-        return convertUtils.convert(entity, clazz);
+        return convertUtil.convert(entity, clazz);
     }
 
     @SuppressWarnings("unchecked")
     protected <T> List<T> findAll(Class<T> clazz) {
-        return convertUtils.convert(repository.findAll(), clazz);
+        return convertUtil.convert(repository.findAll(), clazz);
     }
 
     @SuppressWarnings("unchecked")
     protected <T> List<T> findAllInactive(Class<T> clazz) {
-        return convertUtils.convert(repository.findAllInactive(), clazz);
+        return convertUtil.convert(repository.findAllInactive(), clazz);
     }
 
     @SuppressWarnings("unchecked")
@@ -105,14 +105,14 @@ public abstract class BaseService<R extends SoftDeleteRepository, E extends Base
         E entity = optionalEntity.get();
 
         if (partialUpdate) {
-            objectUtils.merge(updateDTO, entity);
+            objectUtil.merge(updateDTO, entity);
         } else {
-            convertUtils.map(updateDTO, entity);
+            convertUtil.map(updateDTO, entity);
         }
 
         repository.saveAndFlush(entity);
 
-        return convertUtils.convert(entity, clazz);
+        return convertUtil.convert(entity, clazz);
     }
 
     @SuppressWarnings("unchecked")
@@ -132,7 +132,7 @@ public abstract class BaseService<R extends SoftDeleteRepository, E extends Base
             repository.softDelete(entity);
         }
 
-        return convertUtils.convert(entity, clazz);
+        return convertUtil.convert(entity, clazz);
     }
 
     protected void deleteAll() throws Exception {

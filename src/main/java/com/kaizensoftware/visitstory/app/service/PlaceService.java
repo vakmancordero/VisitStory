@@ -24,7 +24,7 @@ public class PlaceService extends BaseService<PlaceRepo, Place> {
 
         List<Place> places = repository.findByNameIgnoreCaseContaining(name);
 
-        return convertUtils.convert(places, PlaceDTO.class);
+        return convertUtil.convert(places, PlaceDTO.class);
     }
 
     public PlaceCreatedDTO createPlace(PlaceCreateDTO placeCreateDTO) throws Exception {

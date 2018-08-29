@@ -10,4 +10,7 @@ import javax.validation.constraints.NotEmpty;
 @EqualsAndHashCode(callSuper = true)
 public class UserCreatedDTO extends UserDTO {
 
+    @NotEmpty
+    private String confirmationToken;
+
 }

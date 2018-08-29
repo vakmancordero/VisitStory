@@ -22,7 +22,7 @@ public class PermissionTypeService extends BaseService<PermissionTypeRepo, Permi
 
         List<PermissionType> permissionTypes = repository.findByNameIgnoreCaseContaining(name);
 
-        return convertUtils.convert(permissionTypes, PermissionTypeDTO.class);
+        return convertUtil.convert(permissionTypes, PermissionTypeDTO.class);
     }
 
     public PermissionTypeCreatedDTO createPermissionType(PermissionTypeCreateDTO permissionTypeCreateDTO) throws Exception {

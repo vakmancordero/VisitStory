@@ -21,6 +21,12 @@ public class UserCreateDTO extends UserDTO {
     @ValidPassword
     private String confirmPassword;
 
+    private String confirmationToken;
+    private boolean enabled;
+
+    private String phone;
+    private String phoneRegion;
+
     public boolean checkPasswords() {
         return this.password.equals(confirmPassword);
     }
