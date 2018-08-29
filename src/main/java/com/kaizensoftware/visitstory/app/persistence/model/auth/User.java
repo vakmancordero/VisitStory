@@ -1,11 +1,14 @@
-package com.kaizensoftware.visitstory.app.persistence.model;
+package com.kaizensoftware.visitstory.app.persistence.model.auth;
 
+import com.kaizensoftware.visitstory.app.persistence.model.GenderReference;
+import com.kaizensoftware.visitstory.app.persistence.model.VisitStory;
 import com.kaizensoftware.visitstory.common.persistence.model.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -50,5 +53,14 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VisitStory> visitStories;
+
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+    private List<Role> roles = new ArrayList<>();
 
 }

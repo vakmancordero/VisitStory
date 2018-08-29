@@ -1,5 +1,6 @@
 package com.kaizensoftware.visitstory.app.persistence.model;
 
+import com.kaizensoftware.visitstory.app.persistence.model.auth.User;
 import com.kaizensoftware.visitstory.common.persistence.model.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

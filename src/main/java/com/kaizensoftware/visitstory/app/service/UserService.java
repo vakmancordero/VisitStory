@@ -3,7 +3,7 @@ package com.kaizensoftware.visitstory.app.service;
 import com.kaizensoftware.visitstory.app.dto.user.UserDTO;
 import com.kaizensoftware.visitstory.app.dto.user.create.*;
 import com.kaizensoftware.visitstory.app.persistence.repository.UserRepo;
-import com.kaizensoftware.visitstory.app.persistence.model.User;
+import com.kaizensoftware.visitstory.app.persistence.model.auth.User;
 
 import com.kaizensoftware.visitstory.app.service.mail.EmailService;
 import com.kaizensoftware.visitstory.common.config.exception.model.ValidationException;
@@ -12,7 +12,6 @@ import com.kaizensoftware.visitstory.common.service.BaseService;
 import static com.kaizensoftware.visitstory.common.util.EventMessage.*;
 
 import com.kaizensoftware.visitstory.common.util.Constants;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
