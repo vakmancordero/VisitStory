@@ -2,18 +2,27 @@ package com.kaizensoftware.visitstory.app.dto.user;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 @Data
 public class UserDTO {
 
     private Long id;
 
-    @NotNull private String email;
-    @NotNull private String name;
-    @NotNull private String lastName;
+    @Email
+    @NotEmpty
+    private String email;
 
+    @NotEmpty
+    private String name;
+
+    @NotEmpty
+    private String lastName;
+
+    @NotEmpty
     private String phone;
+
     private String about;
 
 }

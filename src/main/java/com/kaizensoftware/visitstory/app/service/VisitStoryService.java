@@ -15,9 +15,9 @@ public class VisitStoryService extends BaseService<VisitStoryRepo, VisitStory> {
 
     public Object makeVisitStory(VisitStoryCreateDTO visitStory) throws Exception {
 
-//        List<MultipartFile> contents = visitStory.getContents();
-//        List<UserPermissionCreateDTO> userPermissions = visitStory.getUserPermissions();
-//        Long permissionTypeId = visitStory.getPermissionTypeId();
+        List<MultipartFile> contents = visitStory.getContents();
+        List<UserPermissionCreateDTO> userPermissions = visitStory.getUserPermissions();
+        Long permissionTypeId = visitStory.getPermissionTypeId();
 
         return null;
 

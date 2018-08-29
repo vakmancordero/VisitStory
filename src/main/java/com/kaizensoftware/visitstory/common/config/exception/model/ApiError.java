@@ -2,6 +2,7 @@ package com.kaizensoftware.visitstory.common.config.exception.model;
 
 
 import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
@@ -17,7 +18,7 @@ public class ApiError {
     private int status;
     private String error;
     private String exception;
-    private String message;
+    private Object message;
     private String technicalMessage;
     private String path;
 
@@ -50,6 +51,16 @@ public class ApiError {
         this.error  = status.getReasonPhrase();
         this.exception = ex.getClass().getTypeName();
         this.message = message;
+        this.technicalMessage = ex.getMessage();
+        this.path  = ((ServletWebRequest) request).getRequest().getServletPath();
+    }
+
+    public ApiError(ValidationException ex, String message, HttpStatus status, WebRequest request) {
+        this();
+        this.status = status.value();
+        this.error  = status.getReasonPhrase();
+        this.exception = ex.getClass().getTypeName();
+        this.message = StringUtils.isEmpty(ex.getBody()) ? message : ex.getBody();
         this.technicalMessage = ex.getMessage();
         this.path  = ((ServletWebRequest) request).getRequest().getServletPath();
     }

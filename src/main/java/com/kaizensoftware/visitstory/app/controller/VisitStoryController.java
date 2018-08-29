@@ -7,11 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/visit-story")
@@ -22,7 +21,10 @@ public class VisitStoryController {
 
     @PostMapping
     public ResponseEntity makeVisitStory(
-            @RequestBody VisitStoryCreateDTO visitStory, @ModelAttribute List<MultipartFile> contents) throws Exception {
+            @RequestPart(value = "visitStory") VisitStoryCreateDTO visitStory,
+            @RequestPart(value = "contents", required = false) List<MultipartFile> contents) throws Exception {
+
+        visitStory.setContents(contents);
 
         Object vs = vsService.makeVisitStory(visitStory);
 

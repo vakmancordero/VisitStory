@@ -2,15 +2,15 @@ package com.kaizensoftware.visitstory.app.dto.visit_story;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 
 @Data
 public class VisitStoryDTO {
 
-    @NotNull
+    @NotEmpty
     private String name;
 
-    @NotNull
+    @NotEmpty
     private String description;
 
 }

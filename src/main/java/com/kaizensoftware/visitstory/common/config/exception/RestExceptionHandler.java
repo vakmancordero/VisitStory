@@ -1,6 +1,7 @@
 package com.kaizensoftware.visitstory.common.config.exception;
 
 import com.kaizensoftware.visitstory.common.config.exception.model.ApiError;
+import com.kaizensoftware.visitstory.common.config.exception.model.ValidationException;
 import com.kaizensoftware.visitstory.common.util.EventMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity handleRestClientException(RestClientException ex, WebRequest request) {
         HttpHeaders headers = new HttpHeaders();
         return handleRestClientException(ex, headers, request);
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    protected ResponseEntity handleValidationException(ValidationException ex, WebRequest request) {
+        HttpHeaders headers = new HttpHeaders();
+        return handleValidationException(ex, headers, request);
     }
 
     @ExceptionHandler(Throwable.class)
@@ -110,6 +117,20 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             return this.handleExceptionInternal(ex, apiError, headers, internalServerError, request);
 
         }
+    }
+
+    private ResponseEntity handleValidationException(ValidationException ex, HttpHeaders headers, WebRequest request) {
+
+        if (log.isErrorEnabled())
+            log.error(ex.getMessage(), ex);
+
+        HttpStatus badRequest = HttpStatus.BAD_REQUEST;
+
+        request.setAttribute("technicalMessage", ex.getMessage(),0);
+
+        ApiError apiError = new ApiError(ex, EventMessage.UNEXPECTED_SERVER_ERROR.getMessage(), badRequest, request);
+
+        return this.handleExceptionInternal(ex, apiError, headers, badRequest, request);
     }
 
     private static ResponseEntity handleExceptionInternal(Throwable ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {

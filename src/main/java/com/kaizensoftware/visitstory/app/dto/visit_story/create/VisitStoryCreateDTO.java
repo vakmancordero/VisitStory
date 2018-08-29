@@ -3,7 +3,7 @@ package com.kaizensoftware.visitstory.app.dto.visit_story.create;
 import com.kaizensoftware.visitstory.app.dto.user_permission.create.*;
 import com.kaizensoftware.visitstory.app.dto.visit_story.VisitStoryDTO;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 
 import lombok.EqualsAndHashCode;
 import lombok.Data;
@@ -15,12 +15,14 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class VisitStoryCreateDTO extends VisitStoryDTO {
 
-    @NotNull
+    @NotEmpty
     private Long placeId;
 
-    @NotNull
+    @NotEmpty
     private Long permissionTypeId;
 
     private List<UserPermissionCreateDTO> userPermissions;
+
+    private List<MultipartFile> contents;
 
 }
