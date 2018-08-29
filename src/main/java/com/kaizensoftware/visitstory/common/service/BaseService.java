@@ -135,6 +135,11 @@ public abstract class BaseService<R extends SoftDeleteRepository, E extends Base
         return convertUtil.convert(entity, clazz);
     }
 
+    @SuppressWarnings("unchecked")
+    protected boolean existsById(Long id) {
+        return repository.existsById(id);
+    }
+
     protected void deleteAll() throws Exception {
         this.repository.deleteAll();
     }

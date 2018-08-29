@@ -13,32 +13,34 @@ public class ObjectUtil {
 
             if (fromMethod.getName().startsWith("get")) {
 
-                String fromMethodName = fromMethod.getName();
-                String toMethodName = fromMethodName.replace("get", "set");
+                if (!fromMethod.getName().toLowerCase().contains("class")) {
 
-                try {
+                    String fromMethodName = fromMethod.getName();
+                    String toMethodName = fromMethodName.replace("get", "set");
 
-                    Method toMethod = toObject.getClass().getMethod(toMethodName, fromMethod.getReturnType());
-                    Object value = fromMethod.invoke(fromObject, (Object[]) null);
+                    try {
 
-                    //If getter phone is null, don't copy it.
-                    if ((value != null)) {
-                        //if the getter phone is a long, and it is 0, do not copy it.
-                        if (value instanceof Long) { //TODO: Add float and Int??
-                            long numValue = (long) value;
-                            if (numValue != 0) {
-                                toMethod.invoke(toObject, value);
-                            }
-                        } else {
-                            if (value instanceof String) {
-                                toMethod.invoke(toObject, value);
+                        Method toMethod = toObject.getClass().getMethod(toMethodName, fromMethod.getReturnType());
+                        Object value = fromMethod.invoke(fromObject, (Object[]) null);
+
+                        if (value != null) {
+
+                            if (value instanceof Long) {
+                                long numValue = (long) value;
+                                if (numValue != 0) {
+                                    toMethod.invoke(toObject, value);
+                                }
+                            } else {
+                                if (value instanceof String) {
+                                    toMethod.invoke(toObject, value);
+                                }
                             }
                         }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    } catch (Exception ignored) { }
                 }
+
             }
+
         });
     }
 }

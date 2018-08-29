@@ -28,6 +28,6 @@ public class UserDTO {
     @NotNull
     private PhoneNumber phoneNumber;
 
-    private String about;
+    private String aboutMe;
 
 }

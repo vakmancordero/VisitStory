@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -25,14 +26,21 @@ public class User extends BaseEntity {
     @Column(length = 100, nullable = false)
     private String lastName;
 
-    @Column(length = 15, unique = true)
+    @Column(length = 15)
     private String phone;
 
     @Column(length = 10)
     private String phoneRegion;
 
+    @Column
+    private LocalDate birthday;
+
     @Column(columnDefinition = "TEXT")
-    private String about;
+    private String aboutMe;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "gender_reference_id")
+    private GenderReference genderReference;
 
     @Column(nullable = false)
     private boolean enabled;
