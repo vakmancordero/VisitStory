@@ -2,6 +2,8 @@ package com.kaizensoftware.visitstory.common.controller;
 
 import com.kaizensoftware.visitstory.common.config.exception.model.ValidationException;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 
@@ -21,6 +23,10 @@ public class BaseController {
             throw new ValidationException("Validation errors", errors);
         }
 
+    }
+
+    protected UserDetails currentUser(Authentication authentication) {
+        return (UserDetails) authentication.getPrincipal();
     }
 
 }

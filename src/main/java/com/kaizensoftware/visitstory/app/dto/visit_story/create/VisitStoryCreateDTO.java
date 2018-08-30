@@ -21,6 +21,8 @@ public class VisitStoryCreateDTO extends VisitStoryDTO {
     @NotEmpty
     private Long permissionTypeId;
 
+    private String currentUser;
+
     private List<UserPermissionCreateDTO> userPermissions;
 
     private List<MultipartFile> contents;
