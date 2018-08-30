@@ -21,7 +21,7 @@ public class UserController extends BaseController {
 
     private final UserService userService;
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity create(@RequestBody @Valid UserCreateDTO userInput,
                                  BindingResult br, HttpServletRequest request) throws Exception {
         throwErrors(br);

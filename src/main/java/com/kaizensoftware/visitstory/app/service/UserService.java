@@ -14,6 +14,7 @@ import static com.kaizensoftware.visitstory.common.util.EventMessage.*;
 import com.kaizensoftware.visitstory.common.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +27,8 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserService extends BaseService<UserRepo, User> {
+
+    private final PasswordEncoder passwordEncoder;
 
     private final GenderReferenceService genderReferenceService;
     private final EmailService emailService;
@@ -46,6 +49,9 @@ public class UserService extends BaseService<UserRepo, User> {
 
         // Parse birthday and set it to the create dto
         userCreate.setBirthday(parseBirthday(userCreate.getBirthdaySt()));
+
+        // Encode the password with passwordEncoder
+        userCreate.setPassword(passwordEncoder.encode(userCreate.getPassword()));
 
         // The user is not enabled by default
         userCreate.setEnabled(false);
