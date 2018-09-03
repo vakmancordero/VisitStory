@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserService extends BaseService<UserRepo, User> {
@@ -39,6 +41,10 @@ public class UserService extends BaseService<UserRepo, User> {
 
     public String confirmAccount(String confirmationToken) throws Exception {
         return userAccountService.confirmAccount(confirmationToken);
+    }
+
+    public List<User> findAllUsersIn(List<Long> userIds) {
+        return repository.findAllById(userIds);
     }
 
 }

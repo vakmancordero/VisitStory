@@ -21,4 +21,7 @@ public class UserPermission extends BaseEntity {
     @JoinColumn(name = "permission_id")
     private Permission permission;
 
+    public UserPermission(User user) {
+        this.user = user;
+    }
 }

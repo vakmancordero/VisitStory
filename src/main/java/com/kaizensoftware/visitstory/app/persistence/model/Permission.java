@@ -15,7 +15,7 @@ public class Permission extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "permission_type_id")
-    private PermissionType permission;
+    private PermissionType permissionType;
 
     @OneToMany(mappedBy = "permission", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserPermission> userPermissions;

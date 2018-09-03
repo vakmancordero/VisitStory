@@ -25,4 +25,6 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "content_id")
     private Content content;
 
+    private String text;
+
 }

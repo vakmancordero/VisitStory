@@ -15,7 +15,10 @@ public enum EventMessage {
     INVALID_BIRTHDAY(6, "Invalid birthday: %s."),
     INVALID_CONFIRMATION_TOKEN(7, "Invalid confirmation token."),
     ACCOUNT_CONFIRMATION_MESSAGE(8, "The user account was successfully confirmed."),
-    NON_EXISTENT_USER(8, "The user with email %s does not exist.");
+    NON_EXISTENT_USER(9, "The user with email %s does not exist."),
+    INVALID_PLACE(10, "The place with id %d does not exist."),
+    INVALID_PERMISSION_TYPE(11, "The permission type with id %d does not exist."),
+    INVALID_VISIT_STORY(11, "The permission type with id %d does not exist.");
 
     private Integer code;
     private String message;

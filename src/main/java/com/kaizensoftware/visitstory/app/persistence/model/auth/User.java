@@ -1,6 +1,7 @@
 package com.kaizensoftware.visitstory.app.persistence.model.auth;
 
 import com.kaizensoftware.visitstory.app.persistence.model.GenderReference;
+import com.kaizensoftware.visitstory.app.persistence.model.PermissionType;
 import com.kaizensoftware.visitstory.app.persistence.model.VisitStory;
 import com.kaizensoftware.visitstory.common.persistence.model.BaseEntity;
 import lombok.Data;
@@ -50,6 +51,10 @@ public class User extends BaseEntity {
 
     @Column(unique = true)
     private String confirmationToken;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "default_permission_type_id")
+    private PermissionType defaultPermissionType;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VisitStory> visitStories;

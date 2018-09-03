@@ -33,7 +33,7 @@ public class CustomUserDetails implements UserDetails {
     private List<String> getPermission(Collection<Role> roles) {
         
         List<String> permissionsList = new ArrayList<>();
-        List<Permission> permissions = new ArrayList<>();
+        List<AuthPermission> permissions = new ArrayList<>();
         
         roles.forEach(role -> permissions.addAll(role.getPermissions()));
         

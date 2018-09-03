@@ -11,9 +11,9 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Entity(name = "Permission")
-@Table(name = "Permission", schema = "visitStory")
-public class Permission extends BaseEntity {
+@Entity(name = "AuthPermission")
+@Table(name = "AuthPermission", schema = "visitStory")
+public class AuthPermission extends BaseEntity {
 
     @Column(nullable = false)
     private String name;
@@ -21,6 +21,6 @@ public class Permission extends BaseEntity {
     @ManyToMany(mappedBy = "permissions")
     private List<Role> roles = new ArrayList<>();
 
-    public Permission(String name) { this.name = name; }
+    public AuthPermission(String name) { this.name = name; }
 
 }

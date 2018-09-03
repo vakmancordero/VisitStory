@@ -19,7 +19,7 @@ public class PermissionType extends BaseEntity {
     private String name;
     private String description;
 
-    @OneToMany(mappedBy = "permission", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "permissionType", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Permission> permissions;
 
 }

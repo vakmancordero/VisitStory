@@ -27,7 +27,7 @@ public class Role extends BaseEntity {
                     name = "role_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
                     name = "permission_id", referencedColumnName = "id"))
-    private List<Permission> permissions = new ArrayList<>();
+    private List<AuthPermission> permissions = new ArrayList<>();
 
     public Role(String name) { this.name = name; }
 

@@ -1,5 +1,6 @@
 package com.kaizensoftware.visitstory.app.controller;
 
+import com.kaizensoftware.visitstory.app.dto.comment.SimpleCommentDTO;
 import com.kaizensoftware.visitstory.app.dto.visit_story.create.*;
 import com.kaizensoftware.visitstory.app.service.VisitStoryService;
 
@@ -24,15 +25,27 @@ public class VisitStoryController extends BaseController {
 
     @PostMapping
     public ResponseEntity makeVisitStory(Authentication authentication,
-            @RequestPart(value = "visitStory") VisitStoryCreateDTO visitStory,
+            @RequestPart(value = "visitStory") SimpleVisitStoryCreateDTO visitStory,
             @RequestPart(value = "contents", required = false) List<MultipartFile> contents) throws Exception {
 
-        visitStory.setCurrentUser(currentUser(authentication).getUsername());
+        visitStory.setCurrentUser(authentication.getName());
         visitStory.setContents(contents);
 
-        Object vs = visitStoryService.makeVisitStory(visitStory);
+        return ResponseEntity.ok(visitStoryService.makeVisitStory(visitStory));
+    }
 
-        return ResponseEntity.ok(vs);
+    @GetMapping
+    public ResponseEntity findVisitStories(Authentication authentication) {
+        return null;
+    }
+
+    @PostMapping
+    public ResponseEntity addComment(Authentication authentication,
+            @RequestPart(value = "comment") SimpleCommentDTO simpleComment) throws Exception {
+
+        simpleComment.setCurrentUser(authentication.getName());
+
+        return ResponseEntity.ok(visitStoryService.addComment(simpleComment));
     }
 
 }

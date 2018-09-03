@@ -1,5 +1,6 @@
 package com.kaizensoftware.visitstory.app.dto.user_permission;
 
+import com.kaizensoftware.visitstory.app.dto.user.UserDTO;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
@@ -8,6 +9,9 @@ import javax.validation.constraints.NotEmpty;
 public class UserPermissionDTO {
 
     @NotEmpty
-    private Long userId;
+    private UserDTO user;
 
+    public UserPermissionDTO(@NotEmpty UserDTO user) {
+        this.user = user;
+    }
 }
