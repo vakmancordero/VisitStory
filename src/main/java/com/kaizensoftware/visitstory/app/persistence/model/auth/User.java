@@ -2,6 +2,7 @@ package com.kaizensoftware.visitstory.app.persistence.model.auth;
 
 import com.kaizensoftware.visitstory.app.persistence.model.GenderReference;
 import com.kaizensoftware.visitstory.app.persistence.model.PermissionType;
+import com.kaizensoftware.visitstory.app.persistence.model.UserContact;
 import com.kaizensoftware.visitstory.app.persistence.model.VisitStory;
 import com.kaizensoftware.visitstory.common.persistence.model.BaseEntity;
 import lombok.Data;
@@ -58,6 +59,9 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VisitStory> visitStories;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserContact> userContacts;
 
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(

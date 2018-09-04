@@ -33,8 +33,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers(POST, "/oauth/token/**").permitAll()
                 .antMatchers(POST, "/users/register").permitAll()
                 .antMatchers(POST, "/users/activate/**").permitAll()
-                .anyRequest().authenticated()
-                //.anyRequest().permitAll()
+//                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and().formLogin().permitAll()
                 .and().csrf().disable();
     }

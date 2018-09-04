@@ -21,6 +21,7 @@ import com.kaizensoftware.visitstory.app.service.user.UserService;
 import com.kaizensoftware.visitstory.common.service.BaseService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -72,7 +73,11 @@ public class VisitStoryService extends BaseService<VisitStoryRepo, VisitStory> {
         return create(visitStory, VisitStoryCreatedDTO.class);
     }
 
-    public List<?> asd() {
+    public List<String> findVisitStories(String userName, Pageable pageable) throws Exception {
+
+        UserDTO user = userService.findUser(userName);
+
+        List<VisitStory> visitStories = repository.findByUserId(user.getId(), pageable);
 
 
 

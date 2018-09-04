@@ -36,6 +36,9 @@ public class VisitStory extends BaseEntity {
     private List<Content> contents;
 
     @OneToMany(mappedBy = "visitStory", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments;
+
+    @OneToMany(mappedBy = "visitStory", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TaggedUser> taggedUsers;
 
 }
