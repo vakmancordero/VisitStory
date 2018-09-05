@@ -40,7 +40,7 @@ public class VisitStoryController extends BaseController {
         return ResponseEntity.ok(visitStoryService.findVisitStories(authentication.getName(), pageable));
     }
 
-    @PostMapping
+    @PostMapping("/addComment")
     public ResponseEntity addComment(Authentication authentication,
             @RequestPart(value = "comment") SimpleCommentDTO simpleComment) throws Exception {
 
