@@ -1,9 +1,9 @@
 package com.kaizensoftware.visitstory.app.config.files.minio.dto;
 
 import io.minio.ObjectStat;
-import lombok.Data;
 
 import java.util.Date;
+import lombok.Data;
 
 @Data
 public class MinioObject {

@@ -1,57 +1,34 @@
 package com.kaizensoftware.visitstory.app.service.files;
 
-import com.kaizensoftware.visitstory.app.config.files.FileStorageSettings;
-import com.kaizensoftware.visitstory.common.config.exception.FileStorageException;
-import com.kaizensoftware.visitstory.common.config.exception.model.ValidationException;
+import com.kaizensoftware.visitstory.app.config.files.minio.dto.MinioObject;
+import com.kaizensoftware.visitstory.app.config.files.minio.service.MinioTemplate;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.util.StringUtils;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-
-import java.io.IOException;
-import java.util.Objects;
 
 @Service
 public class FileStorageService {
 
-    private final Path fileStorageLocation;
+    private final MinioTemplate minioTemplate;
 
     @Autowired
-    public FileStorageService(FileStorageSettings fileStorageSettings) throws ValidationException {
-
-        this.fileStorageLocation = Paths.get(fileStorageSettings.getUploadDir()).toAbsolutePath().normalize();
-
-        try {
-            Files.createDirectories(this.fileStorageLocation);
-        } catch (Exception ex) {
-            throw new ValidationException("Could not create the directory where the uploaded files will be stored.");
-        }
-
+    public FileStorageService(MinioTemplate minioTemplate) {
+        this.minioTemplate = minioTemplate;
     }
 
-    public String storeFile(MultipartFile file) throws FileStorageException {
-
-        String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
+    public MinioObject storeFile(MultipartFile file, String bucketName) {
 
         try {
 
-            //TODO: change strings with event message enum values
-            if (fileName.contains(".."))
-                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
+            String name = file.getOriginalFilename();
 
-            Path targetLocation = this.fileStorageLocation.resolve(fileName);
-            Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+            minioTemplate.saveObject(bucketName, name, file.getInputStream(), file.getSize(), file.getContentType());
 
-            return fileName;
+            return new MinioObject(minioTemplate.getObjectInfo(bucketName, name));
 
-        } catch (IOException ex) {
-            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+        } catch(Exception ignored) {
+            return null;
         }
 
     }

@@ -1,5 +1,6 @@
 package com.kaizensoftware.visitstory.app.config.files.minio.service;
 
+import lombok.Getter;
 import org.xmlpull.v1.XmlPullParserException;
 
 import io.minio.MinioClient;
@@ -37,6 +38,10 @@ public class MinioTemplate {
         this.endpoint = endpoint;
         this.accessKey = accessKey;
         this.secretKey = secretKey;
+    }
+
+    public String getEndpoint() {
+        return endpoint;
     }
 
     /**

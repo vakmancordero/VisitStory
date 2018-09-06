@@ -18,7 +18,7 @@ public class MinioAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(MinioTemplate.class)
     @ConditionalOnProperty(name = "minio.url")
-    public MinioTemplate template(){
+    public MinioTemplate template() {
         return new MinioTemplate(
                 properties.getUrl(),
                 properties.getAccessKey(),

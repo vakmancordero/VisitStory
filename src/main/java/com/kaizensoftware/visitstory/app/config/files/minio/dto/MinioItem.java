@@ -4,7 +4,9 @@ import io.minio.messages.Item;
 import io.minio.messages.Owner;
 
 import java.util.Date;
+import lombok.Data;
 
+@Data
 public class MinioItem {
 
     private String objectName;
@@ -36,59 +38,4 @@ public class MinioItem {
         this.type = item.isDir() ? "directory" : "file";
     }
 
-    public String getObjectName() {
-        return objectName;
-    }
-
-    public void setObjectName(String objectName) {
-        this.objectName = objectName;
-    }
-
-    public Date getLastModified() {
-        return lastModified;
-    }
-
-    public void setLastModified(Date lastModified) {
-        this.lastModified = lastModified;
-    }
-
-    public String getEtag() {
-        return etag;
-    }
-
-    public void setEtag(String etag) {
-        this.etag = etag;
-    }
-
-    public long getSize() {
-        return size;
-    }
-
-    public void setSize(long size) {
-        this.size = size;
-    }
-
-    public String getStorageClass() {
-        return storageClass;
-    }
-
-    public void setStorageClass(String storageClass) {
-        this.storageClass = storageClass;
-    }
-
-    public Owner getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Owner owner) {
-        this.owner = owner;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 }

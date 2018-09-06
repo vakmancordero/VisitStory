@@ -18,6 +18,7 @@ public class Content extends BaseEntity {
     private VisitStory visitStory;
 
     private String pathReference;
+    private String contentType;
 
     @OneToMany(mappedBy = "content", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
