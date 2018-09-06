@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class InvalidPasswordDTO {
+public class InvalidPasswordOutDTO {
 
     private String password;
 

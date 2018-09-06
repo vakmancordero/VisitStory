@@ -17,12 +17,22 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PermissionTypeService extends BaseService<PermissionTypeRepo, PermissionType> {
 
     public PermissionTypeDTO findByPermissionTypeId(Long permissionTypeId) throws Exception {
         return findById(permissionTypeId, PermissionTypeDTO.class);
+    }
+
+    public PermissionTypeDTO findByPermissionTypeByName(String name) throws ValidationException {
+
+        String errorMessage = String.format(NON_EXISTENT_PERMISSION_TYPE.getMessage(), name);
+
+        Optional<PermissionType> permissionType = repository.findByName(name);
+
+        return convertUtil.convert(permissionType.orElseThrow(() -> new ValidationException(errorMessage)), PermissionTypeDTO.class);
     }
 
     public List<PermissionTypeDTO> findAllPermissionTypes() {
@@ -37,7 +47,17 @@ public class PermissionTypeService extends BaseService<PermissionTypeRepo, Permi
     }
 
     public PermissionTypeCreatedDTO createPermissionType(PermissionTypeCreateDTO permissionTypeCreateDTO) throws Exception {
-        return create(permissionTypeCreateDTO, PermissionTypeCreatedDTO.class);
+
+        try {
+
+            PermissionTypeDTO permissionType = findByPermissionTypeByName(permissionTypeCreateDTO.getName());
+
+            return convertUtil.convert(permissionType, PermissionTypeCreatedDTO.class);
+
+        } catch(ValidationException ex) {
+            return create(permissionTypeCreateDTO, PermissionTypeCreatedDTO.class);
+        }
+
     }
 
     public PermissionTypeCreatedDTO updatePermissionType(PermissionTypeUpdateDTO permissionTypeUpdateDTO, boolean partialUpdate) throws Exception {

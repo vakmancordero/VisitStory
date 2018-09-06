@@ -81,7 +81,7 @@ public class UserAccountService extends BaseService<UserRepo, User> {
 
     private void sendActivationMessage(UserCreatedDTO userCreated) {
 
-        String activationUrl = environment.getProperty("visit-story.account.register.context");
+        String activationUrl = environment.getProperty(Constants.ACTIVATION_ACCOUNT_URL_PROPERTY);
 
         String text = String.format(REGISTRATION_CONFIRMATION_CONTENT.getMessage(),
                 activationUrl, userCreated.getConfirmationToken());

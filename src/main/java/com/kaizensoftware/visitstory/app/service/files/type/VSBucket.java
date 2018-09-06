@@ -7,8 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum VSBucket {
 
-    VISIT_STORY_MEDIA       ("vsPhotos"),
-    USER_PROFILE_PHOTOS     ("vsPhotos");
+    VISIT_STORY_MEDIA       ("visit-story-media"),
+    USER_PROFILE_PHOTOS     ("user-profile-photos");
 
     private String bucketName;
 

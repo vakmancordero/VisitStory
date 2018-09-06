@@ -1,4 +1,4 @@
-package com.kaizensoftware.visitstory.app.dto.view;
+package com.kaizensoftware.visitstory.app.dto.view_;
 
 import com.kaizensoftware.visitstory.app.dto.user.read.UserVSDTO;
 

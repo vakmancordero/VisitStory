@@ -4,6 +4,7 @@ import com.kaizensoftware.visitstory.common.persistence.model.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -13,6 +14,7 @@ import javax.persistence.Table;
 @Table(name = "InvalidPassword", schema = "visitStory")
 public class InvalidPassword extends BaseEntity {
 
+    @Column(unique = true)
     private String password;
 
 }

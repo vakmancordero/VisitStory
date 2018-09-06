@@ -8,4 +8,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class PermissionTypeCreatedDTO extends PermissionTypeDTO {
 
+    public PermissionTypeCreatedDTO(String name, String description) {
+        super(name, description);
+    }
 }

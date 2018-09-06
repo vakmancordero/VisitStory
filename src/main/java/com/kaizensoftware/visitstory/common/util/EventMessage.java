@@ -18,7 +18,9 @@ public enum EventMessage {
     NON_EXISTENT_USER(9, "The user with email %s does not exist."),
     INVALID_PLACE(10, "The place with id %d does not exist."),
     INVALID_PERMISSION_TYPE(11, "The permission type with id %d does not exist."),
-    INVALID_VISIT_STORY(11, "The permission type with id %d does not exist.");
+    NON_EXISTENT_PERMISSION_TYPE(12, "The permission type with name %s does not exist."),
+    INVALID_VISIT_STORY(13, "The visit story with id %d does not exist."),
+    NON_EXISTENT_PASSWORD(14, "The invalid password with value %s does not exist.");
 
     private Integer code;
     private String message;

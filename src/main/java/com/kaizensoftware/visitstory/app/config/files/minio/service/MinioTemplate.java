@@ -48,6 +48,10 @@ public class MinioTemplate {
      * Bucket Operations
      */
 
+    public boolean bucketExist(String bucketName) throws IOException, InvalidKeyException, NoSuchAlgorithmException, InsufficientDataException, InternalException, NoResponseException, InvalidBucketNameException, XmlPullParserException, ErrorResponseException {
+        return minioClient.bucketExists(bucketName);
+    }
+
     public void createBucket(String bucketName) throws XmlPullParserException, NoSuchAlgorithmException, InvalidKeyException, IOException, InvalidPortException, InvalidEndpointException, RegionConflictException, NoResponseException, InternalException, ErrorResponseException, InsufficientDataException, InvalidBucketNameException {
         MinioClient client = getMinioClient();
         if (!client.bucketExists(bucketName)) {

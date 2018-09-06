@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface VisitStoryRepo extends SoftDeleteRepository<VisitStory, Long> {
 
-    List<VisitStory> findByUserId(Long userId, Pageable pageRequest);
+    //List<VisitStory> findByUserId(Long userId, Pageable pageRequest);
+
+    List<VisitStory> findByUserId(Long userId);
 
 }

@@ -6,7 +6,11 @@ import lombok.Data;
 public class PermissionTypeDTO {
 
     private Long id;
-    private String name;
-    private String description;
+    private final String name;
+    private final String description;
 
+    public PermissionTypeDTO(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 }

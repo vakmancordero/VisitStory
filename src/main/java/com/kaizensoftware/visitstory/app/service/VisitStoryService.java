@@ -101,7 +101,12 @@ public class VisitStoryService extends BaseService<VisitStoryRepo, VisitStory> {
         UserDTO user = userService.findUser(userName);
 
         // Find all the visitStories of the user by pageable param and iterate it
-        return repository.findByUserId(user.getId(), pageable).stream().map(vs -> {
+        //List<VisitStory> visitStories = repository.findByUserId(user.getId(), pageable);
+        List<VisitStory> visitStories = repository.findByUserId(user.getId());
+
+        // Find all the visitStories of the user by pageable param and iterate it
+        return visitStories.stream().map(vs -> {
+        //return repository.findByUserId(user.getId(), pageable).stream().map(vs -> {
 
             // Create new dto instance to copy the vs entity values to it
             VisitStoryCurrentUserDTO visitStory = new VisitStoryCurrentUserDTO();
