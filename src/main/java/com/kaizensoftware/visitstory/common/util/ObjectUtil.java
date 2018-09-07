@@ -11,12 +11,15 @@ public class ObjectUtil {
 
         Arrays.stream(fromObject.getClass().getMethods()).forEach((fromMethod) -> {
 
-            if (fromMethod.getName().startsWith("get")) {
+            if (!fromMethod.getName().toLowerCase().contains("class")) {
 
-                if (!fromMethod.getName().toLowerCase().contains("class")) {
+                boolean startsWithGet = fromMethod.getName().startsWith("get");
+                boolean startsWithIs = fromMethod.getName().startsWith("is");
+
+                if (startsWithGet || startsWithIs) {
 
                     String fromMethodName = fromMethod.getName();
-                    String toMethodName = fromMethodName.replace("get", "set");
+                    String toMethodName = fromMethodName.replace(startsWithGet ? "get" : (startsWithIs ? "is" : "get"), "set");
 
                     try {
 
@@ -33,6 +36,10 @@ public class ObjectUtil {
                             } else {
                                 if (value instanceof String) {
                                     toMethod.invoke(toObject, value);
+                                } else {
+                                    if (value instanceof Boolean) {
+                                        toMethod.invoke(toObject, value);
+                                    }
                                 }
                             }
                         }

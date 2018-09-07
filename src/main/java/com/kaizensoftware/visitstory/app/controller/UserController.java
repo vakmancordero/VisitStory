@@ -29,8 +29,7 @@ public class UserController extends BaseController {
 
     //@PostMapping("/confirm/{token}")
     @GetMapping("/confirm/{token}")
-    public ResponseEntity<String> confirm(@PathVariable("token") @Valid @NotEmpty String token, BindingResult br) throws Exception {
-        throwErrors(br);
+    public ResponseEntity<String> confirm(@PathVariable("token") @NotEmpty String token) throws Exception {
         return ResponseEntity.ok(userService.confirmAccount(token));
     }
 

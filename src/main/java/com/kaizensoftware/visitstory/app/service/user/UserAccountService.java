@@ -42,10 +42,10 @@ public class UserAccountService extends BaseService<UserRepo, User> {
         String email = userCreate.getEmail();
 
         // Verify that user does not exists
-        if (this.userExists(email)) throwUserAlreadyExists(email);
+        if (userExists(email)) throwUserAlreadyExists(email);
 
-        // Verify if the gender reference exists
-        this.validateGender(userCreate.getGenderReferenceId());
+        // Verify if the gender reference exists and set it to de dto
+        userCreate.setGenderReferenceId(validateGender(userCreate.getGenderReferenceId()));
 
         // Parse birthday and set it to the create dto
         userCreate.setBirthday(parseBirthday(userCreate.getBirthdaySt()));
@@ -64,7 +64,7 @@ public class UserAccountService extends BaseService<UserRepo, User> {
         UserCreatedDTO userCreated = create(userCreate, UserCreatedDTO.class);
 
         // Send activation message mail
-        this.sendActivationMessage(userCreated);
+        sendActivationMessage(userCreated);
 
         return userCreated;
     }
@@ -121,9 +121,10 @@ public class UserAccountService extends BaseService<UserRepo, User> {
                 .orElseThrow(() -> new ValidationException(INVALID_CONFIRMATION_TOKEN.getMessage())), UserConfirmAccountDTO.class);
     }
 
-    private void validateGender(Long genderReferenceId) throws ValidationException {
+    private Long validateGender(Long genderReferenceId) throws ValidationException {
         if (!genderReferenceService.genderReferenceExists(genderReferenceId))
             throw new ValidationException(String.format(USER_GENDER_NOT_EXISTS.getMessage(), genderReferenceId));
+        return genderReferenceId;
     }
 
 }
