@@ -5,7 +5,9 @@ import com.kaizensoftware.visitstory.common.util.Constants;
 
 import com.kaizensoftware.visitstory.app.dto.gender_reference.GenderReferenceDTO;
 import com.kaizensoftware.visitstory.app.dto.validation.InvalidPasswordDTO;
+
 import com.kaizensoftware.visitstory.app.service.GenderReferenceService;
+import com.kaizensoftware.visitstory.app.service.PlaceService;
 import com.kaizensoftware.visitstory.app.service.validation.PasswordService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +17,6 @@ import org.springframework.boot.CommandLineRunner;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.ObjectUtils;
 
 @Slf4j
 @Component
@@ -27,6 +27,7 @@ public class BaseDataRunner implements CommandLineRunner {
     private final PasswordService passwordService;
     private final GenderReferenceService genderReferenceService;
     private final PermissionTypeService permissionTypeService;
+    private final PlaceService placeService;
 
     @Override
     public void run(String... args) {
@@ -39,11 +40,21 @@ public class BaseDataRunner implements CommandLineRunner {
         Constants.GENDER_REFERENCES.stream().map(GenderReferenceDTO::new)
                 .forEach(gr -> log.info("GenderReference created: {}", genderReferenceService.createGenderReference(gr)));
 
+        // Create default permission types
         Constants.PERMISSION_TYPES.forEach(pt -> {
             try {
                 permissionTypeService.createPermissionType(pt);
             } catch (Exception ex) {
                 log.error("Error creating permission type: {}", pt);
+            }
+        });
+
+        // Create default places
+        Constants.PLACES.forEach(pl -> {
+            try {
+                placeService.createPlace(pl);
+            } catch (Exception ex) {
+                log.error("Error creating place: {}", pl);
             }
         });
 

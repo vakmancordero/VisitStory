@@ -16,12 +16,22 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PlaceService extends BaseService<PlaceRepo, Place> {
 
     public PlaceDTO findPlaceById(Long placeId) throws Exception {
         return findById(placeId, PlaceDTO.class);
+    }
+
+    public PlaceDTO findPlaceByName(String name) throws ValidationException {
+
+        String messageError = String.format(NON_EXISTENT_PLACE.getMessage(), name);
+
+        Optional<Place> place = repository.findByName(name);
+
+        return convertUtil.convert(place.orElseThrow(() -> new ValidationException(messageError)), PlaceDTO.class);
     }
 
     public List<PlaceDTO> findAllPlaces() {
@@ -36,7 +46,12 @@ public class PlaceService extends BaseService<PlaceRepo, Place> {
     }
 
     public PlaceCreatedDTO createPlace(PlaceCreateDTO placeCreateDTO) throws Exception {
-        return create(placeCreateDTO, PlaceCreatedDTO.class);
+
+        try {
+            return convertUtil.convert(findPlaceByName(placeCreateDTO.getName()), PlaceCreatedDTO.class);
+        } catch(ValidationException ex) {
+            return create(placeCreateDTO, PlaceCreatedDTO.class);
+        }
     }
 
     public PlaceCreatedDTO updatePlace(PlaceUpdateDTO placeUpdateDTO, boolean partialUpdate) throws Exception {

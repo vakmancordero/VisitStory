@@ -1,6 +1,7 @@
 package com.kaizensoftware.visitstory.common.util;
 
 import com.kaizensoftware.visitstory.app.dto.permission_type.create.PermissionTypeCreateDTO;
+import com.kaizensoftware.visitstory.app.dto.place.create.PlaceCreateDTO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +27,12 @@ public class Constants {
             new PermissionTypeCreateDTO("Mis contactos", "Sólo los usuarios que tengas agregados podrán ver tus VisitStories"),
             new PermissionTypeCreateDTO("Público", "Todos los usuarios con Visit Story podrán ver tus VisitStories"),
             new PermissionTypeCreateDTO("Restringido", "Puedes elegir quien puede ver y quien no tus VisitStories")
+    ));
+
+    public static final List<PlaceCreateDTO> PLACES = new ArrayList<>(Arrays.asList(
+            new PlaceCreateDTO("Monterrey", 25.6490376, -100.4431803),
+            new PlaceCreateDTO("San Pedro Garza García", 25.6510566, -100.4025976),
+            new PlaceCreateDTO("Tuxtla Gutiérrez", 16.7460768, -93.1645893)
     ));
 
 }

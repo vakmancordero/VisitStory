@@ -21,7 +21,7 @@ public class PasswordService extends BaseService<InvalidPasswordRepo, InvalidPas
 
     public InvalidPasswordOutDTO findInvalidPasswordByPassword(String password) throws ValidationException {
 
-        String messageError = String.format(NON_EXISTENT_PASSWORD.getMessage(), password);
+        String messageError = String.format(NON_EXISTENT_INVALID_PASSWORD.getMessage(), password);
 
         Optional<InvalidPassword> invalidPassword = repository.findByPassword(password);
 
