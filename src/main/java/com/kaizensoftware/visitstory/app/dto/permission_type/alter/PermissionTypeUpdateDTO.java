@@ -8,4 +8,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class PermissionTypeUpdateDTO extends PermissionTypeDTO {
 
+    public PermissionTypeUpdateDTO(String name, String description) {
+        setName(name);
+        setDescription(description);
+    }
 }

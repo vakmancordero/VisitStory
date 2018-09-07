@@ -10,7 +10,9 @@ import lombok.Data;
 public class PlaceCreateDTO extends PlaceDTO {
 
     public PlaceCreateDTO(String name, double latitude, double longitude) {
-        super(name, latitude, longitude);
+        setName(name);
+        setLatitude(latitude);
+        setLongitude(longitude);
     }
 
 }

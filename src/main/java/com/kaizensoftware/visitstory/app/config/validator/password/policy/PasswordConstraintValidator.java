@@ -1,6 +1,7 @@
 package com.kaizensoftware.visitstory.app.config.validator.password.policy;
 
 import com.kaizensoftware.visitstory.app.dto.validation.InvalidPasswordDTO;
+import com.kaizensoftware.visitstory.app.dto.validation.InvalidPasswordOutDTO;
 import com.kaizensoftware.visitstory.app.service.validation.PasswordService;
 import org.passay.*;
 import org.passay.dictionary.WordListDictionary;
@@ -39,7 +40,7 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
         try {
 
             String words = passwordService.findAllInvalidPasswords().stream()
-                    .map(InvalidPasswordDTO::getPassword)
+                    .map(InvalidPasswordOutDTO::getPassword)
                     .collect(Collectors.joining("\n"));
 
             dictionaryRule = new DictionaryRule(

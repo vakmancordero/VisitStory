@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 public class PermissionTypeCreateDTO extends PermissionTypeDTO {
 
     public PermissionTypeCreateDTO(String name, String description) {
-        super(name, description);
+        setName(name);
+        setDescription(description);
     }
 }

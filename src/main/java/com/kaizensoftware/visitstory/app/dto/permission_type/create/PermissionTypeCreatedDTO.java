@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 public class PermissionTypeCreatedDTO extends PermissionTypeDTO {
 
     public PermissionTypeCreatedDTO(String name, String description) {
-        super(name, description);
+        setName(name);
+        setDescription(description);
     }
 }
