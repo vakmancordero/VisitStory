@@ -1,6 +1,5 @@
 package com.kaizensoftware.visitstory.app.service;
 
-import com.kaizensoftware.visitstory.app.dto.comment.SimpleCommentDTO;
 import com.kaizensoftware.visitstory.app.dto.comment.create.CommentCreateDTO;
 import com.kaizensoftware.visitstory.app.persistence.model.Comment;
 import com.kaizensoftware.visitstory.app.persistence.repository.CommentRepo;

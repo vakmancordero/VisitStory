@@ -2,9 +2,8 @@ package com.kaizensoftware.visitstory.app.dto.user.create;
 
 import com.kaizensoftware.visitstory.app.config.validator.password.match.PasswordMatch;
 import com.kaizensoftware.visitstory.app.config.validator.password.policy.ValidPassword;
+import com.kaizensoftware.visitstory.app.dto.gender_reference.GenderReferenceDTO;
 import com.kaizensoftware.visitstory.app.dto.user.UserDTO;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -16,11 +15,11 @@ import lombok.Data;
 @PasswordMatch
 public class UserCreateDTO extends UserDTO {
 
-    @NotEmpty
+    @NotEmpty(message = "{user.create.empty.password}")
     @ValidPassword
     private String password;
 
-    @NotEmpty
+    @NotEmpty(message = "{user.create.empty.confirm-password}")
     @ValidPassword
     private String confirmPassword;
 
@@ -33,8 +32,10 @@ public class UserCreateDTO extends UserDTO {
     private String birthdaySt;
     private LocalDate birthday;
 
-    @NotNull
+    @NotNull(message = "{user.create.invalid.gender-reference}")
     private Long genderReferenceId;
+
+    private GenderReferenceDTO genderReference;
 
     public boolean checkPasswords() {
         return this.password.equals(confirmPassword);

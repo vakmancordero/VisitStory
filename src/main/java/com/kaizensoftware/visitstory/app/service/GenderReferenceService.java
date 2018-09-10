@@ -18,17 +18,21 @@ public class GenderReferenceService extends BaseService<GenderReferenceRepo, Gen
         return findAll(GenderReferenceDTO.class);
     }
 
-    public boolean genderReferenceExists(Long genderReferenceId) {
+    public GenderReferenceDTO findGenderReferenceById(Long genderReferenceId) throws Exception {
+        return findById(genderReferenceId, GenderReferenceDTO.class);
+    }
+
+    public boolean genderReferenceExistsById(Long genderReferenceId) {
         return existsById(genderReferenceId);
     }
 
-    public boolean genderReferenceExists(String description) {
+    public boolean genderReferenceExistsByDescription(String description) {
         return repository.findByDescription(description).isPresent();
     }
 
     public GenderReferenceDTO createGenderReference(GenderReferenceDTO genderReference) {
 
-        if (!this.genderReferenceExists(genderReference.getDescription())) {
+        if (!this.genderReferenceExistsByDescription(genderReference.getDescription())) {
 
             try {
 

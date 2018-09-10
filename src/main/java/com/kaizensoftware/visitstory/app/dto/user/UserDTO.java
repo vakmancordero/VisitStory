@@ -15,17 +15,17 @@ public class UserDTO {
     private Long id;
 
     @Email
-    @NotEmpty
+    @NotEmpty(message = "{user.create.empty.email}")
     private String email;
 
-    @NotEmpty
+    @NotEmpty(message = "{user.create.empty.name}")
     private String name;
 
-    @NotEmpty
+    @NotEmpty(message = "{user.create.empty.last-name}")
     private String lastName;
 
     @Phone
-    @NotNull
+    @NotNull(message = "{user.create.invalid.phone-number}")
     private PhoneNumber phoneNumber;
 
     private String aboutMe;

@@ -2,6 +2,7 @@ package com.kaizensoftware.visitstory.app.service.user;
 
 import static com.kaizensoftware.visitstory.common.util.EventMessage.*;
 
+import com.kaizensoftware.visitstory.app.dto.gender_reference.GenderReferenceDTO;
 import com.kaizensoftware.visitstory.app.dto.user.UserDTO;
 import com.kaizensoftware.visitstory.app.dto.user.confirm.*;
 import com.kaizensoftware.visitstory.common.util.Constants;
@@ -45,7 +46,7 @@ public class UserAccountService extends BaseService<UserRepo, User> {
         if (userExists(email)) throwUserAlreadyExists(email);
 
         // Verify if the gender reference exists and set it to de dto
-        userCreate.setGenderReferenceId(validateGender(userCreate.getGenderReferenceId()));
+        userCreate.setGenderReference(validateGender(userCreate.getGenderReferenceId()));
 
         // Parse birthday and set it to the create dto
         userCreate.setBirthday(parseBirthday(userCreate.getBirthdaySt()));
@@ -121,10 +122,19 @@ public class UserAccountService extends BaseService<UserRepo, User> {
                 .orElseThrow(() -> new ValidationException(INVALID_CONFIRMATION_TOKEN.getMessage())), UserConfirmAccountDTO.class);
     }
 
-    private Long validateGender(Long genderReferenceId) throws ValidationException {
-        if (!genderReferenceService.genderReferenceExists(genderReferenceId))
-            throw new ValidationException(String.format(USER_GENDER_NOT_EXISTS.getMessage(), genderReferenceId));
-        return genderReferenceId;
+    private GenderReferenceDTO validateGender(Long genderReferenceId) throws ValidationException {
+
+        // Error message for non existing gender reference
+        String errorMessage = String.format(INVALID_GENDER_REFERENCE.getMessage(), genderReferenceId);
+
+        try {
+
+            // Convert the found value to the genderReference dto
+            return genderReferenceService.findGenderReferenceById(genderReferenceId);
+        } catch (Exception ex) {
+            throw new ValidationException(errorMessage);
+        }
+
     }
 
 }
