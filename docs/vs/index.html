@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Multipart Mixed Test</title>
+	<link href="css/bootstrap/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="css/multi-select/multi-select.css" media="screen" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+	<div class="container">
+
+		<h1 style="color: grey">VS</h1>
+
+		<select id="places" class="custom-select mb-3">
+			<option disabled selected value> -- Select an option -- </option>
+		</select>
+
+		<select multiple="multiple" id="my-select" name="my-select[]">
+			<option value='elem_1'>elem 1</option>
+			<option value='elem_2'>elem 2</option>
+			<option value='elem_3'>elem 3</option>
+			<option value='elem_4'>elem 4</option>
+			<option value='elem_100'>elem 100</option>
+		</select>
+
+		<button onclick="uploadFile()">Test</button>
+		<input type="file" name="uploadFile" id="upload-file-input" accept="*" multiple><br/>
+		<span id="upload-file-message"></span>
+
+	</div>
+
+	<!-- JQuery -->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+	<!-- Bootstrap -->
+	<script type="text/javascript" src="js/bootstrap/bootstrap.min.js"></script>
+
+	<!-- MultiSelect -->
+	<script src="js/multi-select/jquery.multi-select.js" type="text/javascript"></script>
+
+	<script type="text/javascript">
+
+		var baseUrl = 'http://localhost:8091';
+
+		// Selects
+		var $placesSelect = $("#places");
+
+		$(function() {
+
+			$('#my-select').multiSelect()
+
+			fillPlacesSelect();
+
+		});
+
+		function fillPlacesSelect() {
+
+			$.get(baseUrl + '/places', function(places) {
+
+				places.forEach(function(place) {
+					$placesSelect.append(new Option(place.name, place.id));
+				});
+
+			});
+
+		}
+
+		function uploadFile() {
+
+			var visitStory = {
+				name: 'My story', description: 'Some story description',
+				placeId: 1, permissionTypeId: 1,
+				userPermissions: [
+					{userId: 2},
+					{userId: 12}
+				]
+			}
+
+			var formData = new FormData();
+
+			//var files = $("#upload-file-input").prop("files");
+
+			formData.append("contents", $("#upload-file-input").prop("files")[0]);
+			formData.append("contents", $("#upload-file-input").prop("files")[1]);
+			formData.append('visitStory', 
+				new Blob([JSON.stringify(visitStory)], {
+	                	type: "application/json"
+	        	}));
+
+	    	$.ajax({
+	    		url: "http://localhost:8091/visit-story",
+		        type: "POST",
+		        headers: {
+         			"Content-Type": undefined,
+         			"Authorization": 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzYwMTM5MzcsInVzZXJfbmFtZSI6ImFydHVyaC5zd0BnbWFpbC5jb20iLCJqdGkiOiI5NzYxNjc5MS01NDE2LTQ3NjUtOTA0Ni1hNzVjMTI3MjU0MmIiLCJjbGllbnRfaWQiOiJmb29DbGllbnRJZFBhc3N3b3JkIiwic2NvcGUiOlsiZm9vIiwicmVhZCIsIndyaXRlIl0sIm9yZ2FuaXphdGlvbiI6ImFydHVyaC5zd0BnbWFpbC5jb20ifQ.y5-8a_PtcwOvAGh_KmolP_gDDSFGqjkKneoBCQL8HzE'
+  				},
+		        data: formData,
+		        processData: false,
+		        contentType: false,
+		        cache: false,
+		        success: function (data) {
+		          $("#upload-file-message").text("File succesfully uploaded");
+		        },
+		        error: function (data) {
+		          $("#upload-file-message").text("File not uploaded (perhaps it's too much big)");
+		        }
+	      	});
+	    }
+
+	</script>
+</body>
+</html>
