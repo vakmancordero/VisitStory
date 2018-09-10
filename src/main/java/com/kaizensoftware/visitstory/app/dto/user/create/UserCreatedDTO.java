@@ -13,4 +13,6 @@ public class UserCreatedDTO extends UserDTO {
     @NotEmpty
     private String confirmationToken;
 
+    private String phone;
+
 }

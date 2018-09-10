@@ -10,4 +10,7 @@ public class GenderReferenceDTO {
     private Long id;
     private final String description;
 
+    public GenderReferenceDTO() {
+        this.description = null;
+    }
 }
