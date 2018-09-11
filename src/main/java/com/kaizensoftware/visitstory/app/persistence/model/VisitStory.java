@@ -25,7 +25,7 @@ public class VisitStory extends BaseEntity {
     @JoinColumn(name = "place_id")
     private Place place;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "permission_id")
     private Permission permission;
 

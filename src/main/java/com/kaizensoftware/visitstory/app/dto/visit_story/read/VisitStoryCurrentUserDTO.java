@@ -4,7 +4,7 @@ import com.kaizensoftware.visitstory.app.dto.comment.read.CommentOnReadVisitStor
 import com.kaizensoftware.visitstory.app.dto.content.ContentDTO;
 import com.kaizensoftware.visitstory.app.dto.permission.PermissionDTO;
 import com.kaizensoftware.visitstory.app.dto.place.PlaceDTO;
-import com.kaizensoftware.visitstory.app.dto.user.read.UserVSDTO;
+import com.kaizensoftware.visitstory.app.dto.user.read.visit_story.UserVSDTO;
 import com.kaizensoftware.visitstory.app.dto.view_.ViewVSDTO;
 import com.kaizensoftware.visitstory.app.dto.visit_story.VisitStoryDTO;
 

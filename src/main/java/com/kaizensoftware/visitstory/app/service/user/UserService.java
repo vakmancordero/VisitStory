@@ -4,6 +4,7 @@ import static com.kaizensoftware.visitstory.common.util.EventMessage.*;
 
 import com.kaizensoftware.visitstory.app.dto.user.UserDTO;
 import com.kaizensoftware.visitstory.app.dto.user.create.*;
+import com.kaizensoftware.visitstory.app.dto.user.read.user_contact.UserContactDTO;
 import com.kaizensoftware.visitstory.app.persistence.repository.UserRepo;
 import com.kaizensoftware.visitstory.app.persistence.model.auth.User;
 
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -33,6 +35,18 @@ public class UserService extends BaseService<UserRepo, User> {
 
         return convertUtil.convert(repository.findByEmail(email).orElseThrow(() ->
                 new ValidationException(errorMessage)), UserDTO.class);
+    }
+
+    public List<UserContactDTO> findUserContacts(String email) throws ValidationException {
+
+        String errorMessage = String.format(NON_EXISTENT_USER.getMessage(), email);
+
+        User user = repository.findByEmail(email).orElseThrow(() ->
+                new ValidationException(errorMessage));
+
+        return user.getUserContacts().stream()
+                .map(uc -> convertUtil.convert(uc.getContact(), UserContactDTO.class))
+                .collect(Collectors.toList());
     }
 
     public UserCreatedDTO createAccount(UserCreateDTO userCreate) throws Exception {

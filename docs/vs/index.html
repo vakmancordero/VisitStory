@@ -9,32 +9,60 @@
 
 	<div class="container">
 
-		<h1 style="color: grey">VS</h1>
+		<h1 style="color: grey">VisitStory [Save]</h1>
 
-		<select id="places" class="custom-select mb-3">
-			<option disabled selected value> -- Select an option -- </option>
-		</select>
-
-		<select multiple="multiple" id="my-select" name="my-select[]">
-			<option value='elem_1'>elem 1</option>
-			<option value='elem_2'>elem 2</option>
-			<option value='elem_3'>elem 3</option>
-			<option value='elem_4'>elem 4</option>
-			<option value='elem_100'>elem 100</option>
-		</select>
-
-		<button onclick="uploadFile()">Test</button>
-		<input type="file" name="uploadFile" id="upload-file-input" accept="*" multiple><br/>
-		<span id="upload-file-message"></span>
+		<form id="vs-form">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="name">Name</label>
+                    <input name="name" id="name" type="text" class="form-control" placeholder="VS Name">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="description">Description</label>
+                    <textarea name="description" id="description" rows="3" class="form-control" placeholder="VS Description"></textarea>
+                </div>
+            </div>
+			<div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="places">Place</label>
+                    <select id="places" class="form-control custom-select">
+                        <option disabled selected value>Select a place</option>
+                    </select>
+                </div>
+			</div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="permissions">Permission type</label>
+                    <select id="permissions" class="form-control custom-select">
+                        <option disabled selected value>Select a permission type</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="user-contacts">User contacts</label>
+                    <select multiple="multiple" id="user-contacts" name="user-contacts[]">
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="content">Content</label>
+                    <input id="content" type="file" class="form-control-file" accept="*" multiple>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+		</form>
+        <span id="upload-file-message"></span>
 
 	</div>
 
 	<!-- JQuery -->
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-
 	<!-- Bootstrap -->
 	<script type="text/javascript" src="js/bootstrap/bootstrap.min.js"></script>
-
 	<!-- MultiSelect -->
 	<script src="js/multi-select/jquery.multi-select.js" type="text/javascript"></script>
 
@@ -42,67 +70,103 @@
 
 		var baseUrl = 'http://localhost:8091';
 
+        $.ajaxSetup({
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzY2NDI2ODMsInVzZXJfbmFtZSI6ImFydHVyaC5zd0BnbWFpbC5jb20iLCJqdGkiOiIxNGJmZTZkYy05ZGMxLTQ3YjUtYWM3Zi1kODhlZTllNGI3MDciLCJjbGllbnRfaWQiOiJmb29DbGllbnRJZFBhc3N3b3JkIiwic2NvcGUiOlsiZm9vIiwicmVhZCIsIndyaXRlIl0sIm9yZ2FuaXphdGlvbiI6ImFydHVyaC5zd0BnbWFpbC5jb20ifQ.Zqs1NNyb5LGk7w4HfAUt7fLQpyhLOv-lkZ2p4Xx166M');
+            }
+        });
+
 		// Selects
-		var $placesSelect = $("#places");
+		var $placesSelect = $('#places');
+        var $permissionsSelect = $('#permissions');
+        var $userContactsSelect = $('#user-contacts');
 
 		$(function() {
 
-			$('#my-select').multiSelect()
+		    $('#vs-form').submit(function(event) {
+		        event.preventDefault();
+		        saveVS();
+            });
 
 			fillPlacesSelect();
-
+			fillPermissionsSelect();
+            fillUserContacts();
 		});
 
 		function fillPlacesSelect() {
-
 			$.get(baseUrl + '/places', function(places) {
-
 				places.forEach(function(place) {
 					$placesSelect.append(new Option(place.name, place.id));
 				});
-
 			});
-
 		}
 
-		function uploadFile() {
+		function fillPermissionsSelect() {
+            $.get(baseUrl + '/permissionTypes', function(permissionTypes) {
+                permissionTypes.forEach(function(permissionType) {
+                    $permissionsSelect.append(new Option(permissionType.name, permissionType.id));
+                });
+            });
+        }
 
-			var visitStory = {
-				name: 'My story', description: 'Some story description',
-				placeId: 1, permissionTypeId: 1,
-				userPermissions: [
-					{userId: 2},
-					{userId: 12}
-				]
-			}
+        function fillUserContacts() {
+            $.get(baseUrl + '/users/contacts', function(userContacts) {
+                userContacts.forEach(function(userContact) {
+                    $userContactsSelect.append(new Option(userContact.name, userContact.id));
+                });
+                $userContactsSelect.multiSelect();
+            });
+        }
 
-			var formData = new FormData();
+        function content(formData) {
 
-			//var files = $("#upload-file-input").prop("files");
+            var files = $('#content').prop("files");
 
-			formData.append("contents", $("#upload-file-input").prop("files")[0]);
-			formData.append("contents", $("#upload-file-input").prop("files")[1]);
-			formData.append('visitStory', 
-				new Blob([JSON.stringify(visitStory)], {
-	                	type: "application/json"
-	        	}));
+            for (var i = 0, length = files.length; i < length; i++)
+                formData.append("contents", files[i]);
+
+            return formData;
+        }
+
+		function saveVS() {
+
+            var formData = content(new FormData());
+
+            var userContacts = $userContactsSelect.val();
+            var userPermissions = [];
+
+            userContacts.forEach(function(userContactId) {
+                userPermissions.push({userId: userContactId})
+            });
+
+            var visitStory = {
+                name: $('#name').val(),
+                description: $('#description').val(),
+                placeId: parseInt($placesSelect.val()),
+                permissionTypeId: parseInt($permissionsSelect.val()),
+                userPermissions: userPermissions
+            };
+
+            formData.append('visitStory',
+                new Blob([JSON.stringify(visitStory)], {
+                    type: "application/json"
+                }));
 
 	    	$.ajax({
 	    		url: "http://localhost:8091/visit-story",
 		        type: "POST",
 		        headers: {
-         			"Content-Type": undefined,
-         			"Authorization": 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzYwMTM5MzcsInVzZXJfbmFtZSI6ImFydHVyaC5zd0BnbWFpbC5jb20iLCJqdGkiOiI5NzYxNjc5MS01NDE2LTQ3NjUtOTA0Ni1hNzVjMTI3MjU0MmIiLCJjbGllbnRfaWQiOiJmb29DbGllbnRJZFBhc3N3b3JkIiwic2NvcGUiOlsiZm9vIiwicmVhZCIsIndyaXRlIl0sIm9yZ2FuaXphdGlvbiI6ImFydHVyaC5zd0BnbWFpbC5jb20ifQ.y5-8a_PtcwOvAGh_KmolP_gDDSFGqjkKneoBCQL8HzE'
-  				},
+         			"Content-Type": undefined
+                },
 		        data: formData,
 		        processData: false,
 		        contentType: false,
 		        cache: false,
 		        success: function (data) {
-		          $("#upload-file-message").text("File succesfully uploaded");
+		            $("#upload-file-message").text("File succesfully uploaded");
 		        },
 		        error: function (data) {
-		          $("#upload-file-message").text("File not uploaded (perhaps it's too much big)");
+		            $("#upload-file-message").text("File not uploaded (perhaps it's too much big)");
 		        }
 	      	});
 	    }

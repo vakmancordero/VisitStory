@@ -6,6 +6,7 @@ import com.kaizensoftware.visitstory.app.service.user.UserService;
 import com.kaizensoftware.visitstory.common.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +32,11 @@ public class UserController extends BaseController {
     @GetMapping("/confirm/{token}")
     public ResponseEntity<String> confirm(@PathVariable("token") @NotEmpty String token) throws Exception {
         return ResponseEntity.ok(userService.confirmAccount(token));
+    }
+
+    @GetMapping("/contacts")
+    public ResponseEntity contacts(Authentication authentication) throws Exception {
+        return ResponseEntity.ok(userService.findUserContacts(authentication.getName()));
     }
 
 }
