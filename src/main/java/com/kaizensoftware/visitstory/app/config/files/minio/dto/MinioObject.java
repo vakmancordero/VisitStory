@@ -3,9 +3,12 @@ package com.kaizensoftware.visitstory.app.config.files.minio.dto;
 import io.minio.ObjectStat;
 
 import java.util.Date;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class MinioObject {
 
     private String bucketName;
@@ -14,15 +17,7 @@ public class MinioObject {
     private long length;
     private String etag;
     private String contentType;
-
-    public MinioObject(String bucketName, String name, Date createdTime, long length, String etag, String contentType, String matDesc) {
-        this.bucketName = bucketName;
-        this.name = name;
-        this.createdTime = createdTime;
-        this.length = length;
-        this.etag = etag;
-        this.contentType = contentType;
-    }
+    private String path;
 
     public MinioObject(ObjectStat os) {
         this.bucketName = os.bucketName();
@@ -31,6 +26,17 @@ public class MinioObject {
         this.length = os.length();
         this.etag = os.etag();
         this.contentType = os.contentType();
+    }
+
+    public MinioObject(ObjectStat os, String endpoint) {
+        this.bucketName = os.bucketName();
+        this.name = os.name();
+        this.createdTime = os.createdTime();
+        this.length = os.length();
+        this.etag = os.etag();
+        this.contentType = os.contentType();
+
+        this.path = String.format("%s/%S/%s", endpoint, this.bucketName, this.name);
     }
 
 }

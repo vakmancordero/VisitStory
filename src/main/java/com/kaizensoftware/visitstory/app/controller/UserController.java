@@ -34,6 +34,11 @@ public class UserController extends BaseController {
         return ResponseEntity.ok(userService.confirmAccount(token));
     }
 
+    @PostMapping("/")
+    public ResponseEntity addContact(Authentication authentication, @RequestParam("userContactId") Long userContactId) {
+        userService.addUserContact(authentication.getName(), userContactId);
+    }
+
     @GetMapping("/contacts")
     public ResponseEntity contacts(Authentication authentication) throws Exception {
         return ResponseEntity.ok(userService.findUserContacts(authentication.getName()));

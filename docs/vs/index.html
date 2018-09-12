@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Multipart Mixed Test</title>
+	<title>Visit Story [Save]</title>
 	<link href="css/bootstrap/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
 	<link href="css/multi-select/multi-select.css" media="screen" rel="stylesheet" type="text/css">
 </head>
@@ -72,7 +72,7 @@
 
         $.ajaxSetup({
             beforeSend: function (xhr) {
-                xhr.setRequestHeader("Authorization", 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzY2NDI2ODMsInVzZXJfbmFtZSI6ImFydHVyaC5zd0BnbWFpbC5jb20iLCJqdGkiOiIxNGJmZTZkYy05ZGMxLTQ3YjUtYWM3Zi1kODhlZTllNGI3MDciLCJjbGllbnRfaWQiOiJmb29DbGllbnRJZFBhc3N3b3JkIiwic2NvcGUiOlsiZm9vIiwicmVhZCIsIndyaXRlIl0sIm9yZ2FuaXphdGlvbiI6ImFydHVyaC5zd0BnbWFpbC5jb20ifQ.Zqs1NNyb5LGk7w4HfAUt7fLQpyhLOv-lkZ2p4Xx166M');
+                xhr.setRequestHeader("Authorization", 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzY2OTk4MzIsInVzZXJfbmFtZSI6ImJlcmUuc3dAZ21haWwuY29tIiwianRpIjoiMmQ4MGYxOTMtMzg4Zi00YjFiLThhZmItNjYxYTQxNDRmMGFlIiwiY2xpZW50X2lkIjoiZm9vQ2xpZW50SWRQYXNzd29yZCIsInNjb3BlIjpbImZvbyIsInJlYWQiLCJ3cml0ZSJdLCJvcmdhbml6YXRpb24iOiJiZXJlLnN3QGdtYWlsLmNvbSJ9.nVsUaHeBh9VBj_ZTW7Hf2teAcb9_4w0zvSO3dTlbb9k');
             }
         });
 
@@ -91,6 +91,7 @@
 			fillPlacesSelect();
 			fillPermissionsSelect();
             fillUserContacts();
+
 		});
 
 		function fillPlacesSelect() {
@@ -132,10 +133,10 @@
 
             var formData = content(new FormData());
 
-            var userContacts = $userContactsSelect.val();
+            var userContactsId = $userContactsSelect.val();
             var userPermissions = [];
 
-            userContacts.forEach(function(userContactId) {
+            userContactsId.forEach(function(userContactId) {
                 userPermissions.push({userId: userContactId})
             });
 

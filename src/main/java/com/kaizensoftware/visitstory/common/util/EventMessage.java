@@ -16,13 +16,14 @@ public enum EventMessage {
     INVALID_CONFIRMATION_TOKEN(7, "Invalid confirmation token."),
     ACCOUNT_CONFIRMATION_MESSAGE(8, "The user account was successfully confirmed."),
     NON_EXISTENT_USER(9, "The user with email %s does not exist."),
-    INVALID_PLACE(10, "The place with id %d does not exist."),
-    INVALID_PERMISSION_TYPE(11, "The permission type with id %d does not exist."),
-    NON_EXISTENT_PERMISSION_TYPE(12, "The permission type with name %s does not exist."),
-    INVALID_VISIT_STORY(13, "The visit story with id %d does not exist."),
-    NON_EXISTENT_INVALID_PASSWORD(14, "The invalid password with value %s does not exist."),
-    NON_EXISTENT_PLACE(15, "The place with name %s does not exist."),
-    INVALID_GENDER_REFERENCE(16, "The gender reference with id %d does not exist.");
+    INVALID_USER(10, "The user with email %s does not exist."),
+    INVALID_PLACE(11, "The user with id %d does not exist."),
+    INVALID_PERMISSION_TYPE(12, "The permission type with id %d does not exist."),
+    NON_EXISTENT_PERMISSION_TYPE(13, "The permission type with name %s does not exist."),
+    INVALID_VISIT_STORY(14, "The visit story with id %d does not exist."),
+    NON_EXISTENT_INVALID_PASSWORD(15, "The invalid password with value %s does not exist."),
+    NON_EXISTENT_PLACE(16, "The place with name %s does not exist."),
+    INVALID_GENDER_REFERENCE(17, "The gender reference with id %d does not exist.");
 
     private Integer code;
     private String message;

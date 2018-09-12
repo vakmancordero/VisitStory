@@ -25,7 +25,7 @@ public class FileStorageService {
 
             minioTemplate.saveObject(bucketName, name, file.getInputStream(), file.getSize(), file.getContentType());
 
-            return new MinioObject(minioTemplate.getObjectInfo(bucketName, name));
+            return new MinioObject(minioTemplate.getObjectInfo(bucketName, name), minioTemplate.getEndpoint());
 
         } catch(Exception ignored) {
             return null;

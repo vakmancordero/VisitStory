@@ -25,8 +25,16 @@ public class UserService extends BaseService<UserRepo, User> {
 
     private final UserAccountService userAccountService;
 
-    public UserDTO findUserById(Long id) throws Exception {
-        return findById(id, UserDTO.class);
+    public UserDTO findUserById(Long id) throws ValidationException {
+
+        String errorMessage = String.format(NON_EXISTENT_USER.getMessage(), id);
+
+        try {
+            return findById(id, UserDTO.class);
+        } catch(Exception ex) {
+            throw new ValidationException(errorMessage);
+        }
+
     }
 
     public UserDTO findUser(String email) throws ValidationException {
@@ -51,6 +59,17 @@ public class UserService extends BaseService<UserRepo, User> {
 
     public UserCreatedDTO createAccount(UserCreateDTO userCreate) throws Exception {
         return userAccountService.createAccount(userCreate);
+    }
+
+    public void addUserContact(String currentUser, Long userContactId) throws Exception {
+
+        // Check if the current user exists
+        UserDTO user = findUser(currentUser);
+
+        // Check if user contact target exists
+        UserDTO userContact = findUserById(userContactId);
+
+        
     }
 
     public String confirmAccount(String confirmationToken) throws Exception {

@@ -23,10 +23,12 @@ import com.kaizensoftware.visitstory.app.dto.user_permission.UserPermissionDTO;
 import com.kaizensoftware.visitstory.app.dto.user_permission.create.*;
 
 // VisitStory DTOs
+import com.kaizensoftware.visitstory.app.dto.visit_story.VisitStoryDTO;
 import com.kaizensoftware.visitstory.app.dto.visit_story.comment.VisitStoryOnCreateCommentDTO;
 import com.kaizensoftware.visitstory.app.dto.visit_story.create.*;
 
 // Required persistence classes for this service
+import com.kaizensoftware.visitstory.app.dto.visit_story.read.SimpleVisitStoryReadDTO;
 import com.kaizensoftware.visitstory.app.dto.visit_story.read.VisitStoryCurrentUserDTO;
 import com.kaizensoftware.visitstory.app.persistence.model.VisitStory;
 import com.kaizensoftware.visitstory.app.persistence.repository.VisitStoryRepo;
@@ -81,18 +83,25 @@ public class VisitStoryService extends BaseService<VisitStoryRepo, VisitStory> {
         permission.setPermissionType(permissionType);
         permission.setUserPermissions(userPermissions(simpleVS.getUserPermissions()));
 
-        // Upload the content files and return its reference
-        List<ContentDTO> contentFiles = uploadContent(simpleVS.getContents(), VSBucket.VISIT_STORY_MEDIA.getBucketName());
-
         // Setting all the attributes for the visitStory creation
         visitStory.setName(simpleVS.getName());
         visitStory.setDescription(simpleVS.getDescription());
         visitStory.setUser(user);
         visitStory.setPlace(place);
         visitStory.setPermission(permission);
-        visitStory.setContents(contentFiles);
 
-        return create(visitStory, VisitStoryCreatedDTO.class);
+        // Create the visitStory
+        VisitStoryCreatedDTO visitStoryCreated = create(visitStory, VisitStoryCreatedDTO.class);
+
+        // Upload the content files and return its reference
+        List<ContentDTO> content = uploadContent(simpleVS.getContents(), // The contentFiles
+                VSBucket.VISIT_STORY_MEDIA.getBucketName(), // The bucketName for this operation
+                visitStoryCreated // The visitStory id created
+        );
+
+        visitStoryCreated.setContents(content);
+
+        return visitStoryCreated;
     }
 
     public List<VisitStoryCurrentUserDTO> findVisitStories(String userName, Pageable pageable) throws Exception {
@@ -166,7 +175,7 @@ public class VisitStoryService extends BaseService<VisitStoryRepo, VisitStory> {
                 .collect(Collectors.toList());
     }
 
-    private List<ContentDTO> uploadContent(List<MultipartFile> contentFiles, String bucketName) {
+    private List<ContentDTO> uploadContent(List<MultipartFile> contentFiles, String bucketName, VisitStoryCreatedDTO visitStoryCreated) {
 
         // Iterate all the contentFiles of vs
         return contentFiles.stream().map(file -> {
@@ -174,8 +183,10 @@ public class VisitStoryService extends BaseService<VisitStoryRepo, VisitStory> {
             // Save the multiPartFile into mini-o
             MinioObject mo = fileStorageService.storeFile(file, bucketName);
 
+            SimpleVisitStoryReadDTO simpleVisitStoryRead = convertUtil.convert(visitStoryCreated, SimpleVisitStoryReadDTO.class);
+
             // Only create a content dto if the value is not null
-            return mo != null ? new ContentDTO(mo.getName(), mo.getContentType()) : null;
+            return mo != null ? new ContentDTO(mo.getPath(), mo.getContentType(), simpleVisitStoryRead) : null;
 
             // Return only non null values
         }).filter(Objects::nonNull).collect(Collectors.toList());
