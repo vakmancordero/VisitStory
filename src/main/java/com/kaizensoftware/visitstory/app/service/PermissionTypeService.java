@@ -28,11 +28,10 @@ public class PermissionTypeService extends BaseService<PermissionTypeRepo, Permi
 
     public PermissionTypeDTO findByPermissionTypeByName(String name) throws ValidationException {
 
-        String errorMessage = String.format(NON_EXISTENT_PERMISSION_TYPE.getMessage(), name);
-
         Optional<PermissionType> permissionType = repository.findByName(name);
 
-        return convertUtil.convert(permissionType.orElseThrow(() -> new ValidationException(errorMessage)), PermissionTypeDTO.class);
+        return convertUtil.convert(permissionType.orElseThrow(() ->
+                new ValidationException(NON_EXISTENT_PERMISSION_TYPE, name)), PermissionTypeDTO.class);
     }
 
     public List<PermissionTypeDTO> findAllPermissionTypes() {
@@ -54,7 +53,7 @@ public class PermissionTypeService extends BaseService<PermissionTypeRepo, Permi
 
             return convertUtil.convert(permissionType, PermissionTypeCreatedDTO.class);
 
-        } catch(ValidationException ex) {
+        } catch (ValidationException ex) {
             return create(permissionTypeCreateDTO, PermissionTypeCreatedDTO.class);
         }
 
@@ -69,15 +68,11 @@ public class PermissionTypeService extends BaseService<PermissionTypeRepo, Permi
     }
 
     public PermissionTypeDTO findPermission(Long permissionId) throws Exception {
-
-        String errorMessage = String.format(INVALID_PERMISSION_TYPE.getMessage(), permissionId);
-
         try {
             return this.findByPermissionTypeId(permissionId);
-        } catch(EntityNotFoundException ex) {
-            throw new ValidationException(errorMessage);
+        } catch (EntityNotFoundException ex) {
+            throw new ValidationException(INVALID_PERMISSION_TYPE, permissionId);
         }
-
     }
 
 }

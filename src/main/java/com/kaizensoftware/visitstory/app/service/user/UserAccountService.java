@@ -106,35 +106,29 @@ public class UserAccountService extends BaseService<UserRepo, User> {
 
         try {
             birthdayLD = LocalDate.parse(birthday, DateTimeFormatter.ofPattern(Constants.BIRTHDAY_PATTERN));
-        } catch(Exception ex) {
-            throw new ValidationException(String.format(INVALID_BIRTHDAY.getMessage(), birthday));
+        } catch (Exception ex) {
+            throw new ValidationException(INVALID_BIRTHDAY, birthday);
         }
 
         return birthdayLD;
     }
 
     private void throwUserAlreadyExists(String email) throws ValidationException {
-        throw new ValidationException(String.format(USER_ALREADY_EXISTS.getMessage(), email));
+        throw new ValidationException(USER_ALREADY_EXISTS, email);
     }
 
     private UserConfirmAccountDTO checkConfirmationToken(String confirmationToken) throws ValidationException {
         return convertUtil.convert(repository.findByConfirmationToken(confirmationToken)
-                .orElseThrow(() -> new ValidationException(INVALID_CONFIRMATION_TOKEN.getMessage())), UserConfirmAccountDTO.class);
+                .orElseThrow(() -> new ValidationException(INVALID_CONFIRMATION_TOKEN)), UserConfirmAccountDTO.class);
     }
 
     private GenderReferenceDTO validateGender(Long genderReferenceId) throws ValidationException {
-
-        // Error message for non existing gender reference
-        String errorMessage = String.format(INVALID_GENDER_REFERENCE.getMessage(), genderReferenceId);
-
         try {
-
             // Convert the found value to the genderReference dto
             return genderReferenceService.findGenderReferenceById(genderReferenceId);
         } catch (Exception ex) {
-            throw new ValidationException(errorMessage);
+            throw new ValidationException(INVALID_GENDER_REFERENCE, genderReferenceId);
         }
-
     }
 
 }

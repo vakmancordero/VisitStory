@@ -1,4 +1,4 @@
-package com.kaizensoftware.visitstory.app.dto.user.read;
+package com.kaizensoftware.visitstory.app.dto.user;
 
 import lombok.Data;
 
@@ -6,6 +6,5 @@ import lombok.Data;
 public class SimpleUserDTO {
 
     private Long id;
-    private String name;
 
 }

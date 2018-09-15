@@ -25,4 +25,9 @@ public class UserContact extends BaseEntity {
     private boolean accepted;
     private boolean blocked;
 
+    public UserContact(User user, User contact) {
+        this.user = user;
+        this.contact = contact;
+    }
+
 }

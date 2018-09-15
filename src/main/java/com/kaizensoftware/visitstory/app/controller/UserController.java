@@ -34,9 +34,9 @@ public class UserController extends BaseController {
         return ResponseEntity.ok(userService.confirmAccount(token));
     }
 
-    @PostMapping("/")
-    public ResponseEntity addContact(Authentication authentication, @RequestParam("userContactId") Long userContactId) {
-        userService.addUserContact(authentication.getName(), userContactId);
+    @PostMapping("/addContact")
+    public ResponseEntity addContact(Authentication authentication, @RequestParam("userContactId") Long userContactId) throws Exception {
+        return ResponseEntity.ok(userService.addUserContact(authentication.getName(), userContactId));
     }
 
     @GetMapping("/contacts")

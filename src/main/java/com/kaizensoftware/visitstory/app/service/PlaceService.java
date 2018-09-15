@@ -27,11 +27,10 @@ public class PlaceService extends BaseService<PlaceRepo, Place> {
 
     public PlaceDTO findPlaceByName(String name) throws ValidationException {
 
-        String messageError = String.format(NON_EXISTENT_PLACE.getMessage(), name);
-
         Optional<Place> place = repository.findByName(name);
 
-        return convertUtil.convert(place.orElseThrow(() -> new ValidationException(messageError)), PlaceDTO.class);
+        return convertUtil.convert(place.orElseThrow(() ->
+                new ValidationException(NON_EXISTENT_PLACE, name)), PlaceDTO.class);
     }
 
     public List<PlaceDTO> findAllPlaces() {
@@ -46,10 +45,9 @@ public class PlaceService extends BaseService<PlaceRepo, Place> {
     }
 
     public PlaceCreatedDTO createPlace(PlaceCreateDTO placeCreateDTO) throws Exception {
-
         try {
             return convertUtil.convert(findPlaceByName(placeCreateDTO.getName()), PlaceCreatedDTO.class);
-        } catch(ValidationException ex) {
+        } catch (ValidationException ex) {
             return create(placeCreateDTO, PlaceCreatedDTO.class);
         }
     }
@@ -64,12 +62,10 @@ public class PlaceService extends BaseService<PlaceRepo, Place> {
 
     public PlaceDTO findPlace(Long placeId) throws Exception {
 
-        String errorMessage = String.format(INVALID_PLACE.getMessage(), placeId);
-
         try {
             return this.findPlaceById(placeId);
-        } catch(EntityNotFoundException ex) {
-            throw new ValidationException(errorMessage);
+        } catch (EntityNotFoundException ex) {
+            throw new ValidationException(INVALID_PLACE);
         }
 
     }

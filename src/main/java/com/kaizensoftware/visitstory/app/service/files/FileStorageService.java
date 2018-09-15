@@ -27,7 +27,7 @@ public class FileStorageService {
 
             return new MinioObject(minioTemplate.getObjectInfo(bucketName, name), minioTemplate.getEndpoint());
 
-        } catch(Exception ignored) {
+        } catch (Exception ignored) {
             return null;
         }
 

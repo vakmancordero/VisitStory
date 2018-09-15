@@ -21,11 +21,10 @@ public class PasswordService extends BaseService<InvalidPasswordRepo, InvalidPas
 
     public InvalidPasswordOutDTO findInvalidPasswordByPassword(String password) throws ValidationException {
 
-        String messageError = String.format(NON_EXISTENT_INVALID_PASSWORD.getMessage(), password);
-
         Optional<InvalidPassword> invalidPassword = repository.findByPassword(password);
 
-        return convertUtil.convert(invalidPassword.orElseThrow(() -> new ValidationException(messageError)), InvalidPasswordOutDTO.class);
+        return convertUtil.convert(invalidPassword.orElseThrow(() ->
+                new ValidationException(NON_EXISTENT_INVALID_PASSWORD, password)), InvalidPasswordOutDTO.class);
     }
 
     public List<InvalidPasswordOutDTO> findAllInvalidPasswords() {
@@ -40,7 +39,7 @@ public class PasswordService extends BaseService<InvalidPasswordRepo, InvalidPas
 
             findInvalidPasswordByPassword(password);
 
-        } catch(ValidationException ex) {
+        } catch (ValidationException ex) {
 
             try {
                 return create(invalidPassword, InvalidPasswordOutDTO.class);
