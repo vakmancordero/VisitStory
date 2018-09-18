@@ -44,7 +44,7 @@ public abstract class BaseService<R extends SoftDeleteRepository, E extends Base
         return this.clazz;
     }
 
-    protected <T, K> K create(T createDTO, Class<K> clazz) throws Exception {
+    protected <T, K> K save(T createDTO, Class<K> clazz) throws Exception {
 
         requireNonNull(createDTO);
 

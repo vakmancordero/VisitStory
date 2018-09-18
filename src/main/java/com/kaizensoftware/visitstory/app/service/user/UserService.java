@@ -1,7 +1,9 @@
 package com.kaizensoftware.visitstory.app.service.user;
 
+import static com.kaizensoftware.visitstory.common.util.Constants.*;
 import static com.kaizensoftware.visitstory.common.util.EventMessage.*;
 
+import com.google.common.collect.ImmutableMap;
 import com.kaizensoftware.visitstory.app.dto.user.UserDTO;
 import com.kaizensoftware.visitstory.app.dto.user.create.*;
 import com.kaizensoftware.visitstory.app.dto.user.read.user_contact.UserContactDTO;
@@ -13,6 +15,7 @@ import com.kaizensoftware.visitstory.app.service.user.user_contact.UserContactSe
 import com.kaizensoftware.visitstory.common.config.exception.model.ValidationException;
 import com.kaizensoftware.visitstory.common.service.BaseService;
 
+import com.kaizensoftware.visitstory.common.util.EventMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -61,7 +64,65 @@ public class UserService extends BaseService<UserRepo, User> {
         return userAccountService.createAccount(userCreate);
     }
 
-    public String addUserContact(String currentUser, Long userContactId) throws Exception {
+    public EventMessage addUserContact(String currentUser, Long userContactId) throws Exception {
+
+        // Check if the given users exist
+        ImmutableMap<String, User> relationship = validateUserContactRelationship(currentUser, userContactId);
+
+        User user = relationship.get(CURRENT_USER);
+        User toUserContact = relationship.get(TO_USER_CONTACT);
+
+        // Validate if the user can add the target contact
+        this.canAddContact(user, toUserContact);
+
+        // Add the user contact
+        user.getUserContacts().add(new UserContact(user, toUserContact));
+
+        // Ignored
+        super.save(user, UserDTO.class);
+
+        return USER_CONTACT_REQUEST_SUCCESS;
+    }
+
+    public EventMessage removeUserContact(String currentUser, Long userContactId) throws Exception {
+
+        // Check if the given users exist
+        ImmutableMap<String, User> relationship = validateUserContactRelationship(currentUser, userContactId);
+
+        User user = relationship.get(CURRENT_USER);
+        User toUserContact = relationship.get(TO_USER_CONTACT);
+
+        UserContact userContact = findUserContact(user.getId(), toUserContact.getId()).orElseThrow(() ->
+                new ValidationException(ADD_USER_CONTACT_NOT_IN_LIST));
+
+        user.getUserContacts().remove(userContact);
+
+        // Ignored
+        super.save(user, UserDTO.class);
+
+        return USER_CONTACT_REMOVED_SUCCESSFULLY;
+    }
+
+    public EventMessage blockUserContact(String currentUser, Long userContactId) throws Exception {
+
+        // Check if the given users exist
+        ImmutableMap<String, User> relationship = validateUserContactRelationship(currentUser, userContactId);
+
+        User user = relationship.get(CURRENT_USER);
+        User toUserContact = relationship.get(TO_USER_CONTACT);
+
+        UserContact userContact = findUserContact(user.getId(), toUserContact.getId()).orElseThrow(() ->
+                new ValidationException(ADD_USER_CONTACT_NOT_IN_LIST));
+
+        userContact.setBlocked(true);
+
+        // Ignored
+        userContact = saveUserContact(userContact);
+
+        return USER_CONTACT_REMOVED_SUCCESSFULLY;
+    }
+
+    private ImmutableMap<String, User> validateUserContactRelationship(String currentUser, Long userContactId) throws ValidationException {
 
         // Check if the current user exists
         User user = repository.findByEmail(currentUser).orElseThrow(() ->
@@ -71,16 +132,10 @@ public class UserService extends BaseService<UserRepo, User> {
         User toUserContact = repository.findById(userContactId).orElseThrow(() ->
                 new ValidationException(INVALID_USER, userContactId));
 
-        // Validate if the user can add the target contact
-        this.canAddContact(user, toUserContact);
-
-        // Add the user contact
-        user.getUserContacts().add(new UserContact(user, toUserContact));
-
-        // Ignored
-        super.create(user, UserDTO.class);
-
-        return USER_CONTACT_REQUEST_SUCCESS.getMessage();
+        return ImmutableMap.<String, User>builder()
+                .put(CURRENT_USER, user) // Add the current user to map
+                .put(TO_USER_CONTACT, toUserContact) // Add the user contact to map
+                .build();
     }
 
     private void canAddContact(User user, User toUserContact) throws ValidationException {
@@ -89,16 +144,21 @@ public class UserService extends BaseService<UserRepo, User> {
         if (user.getId().equals(toUserContact.getId()))
             throw new ValidationException(ADD_USER_CONTACT_SAME_USER_ERROR);
 
-        // Find in user contact list if the toUserContact exists
-        Optional<UserContact> userContact = userContactService.findUserContactRelationship(user.getId(), toUserContact.getId());
-
-        // If exists, throw and validation exception
-        if (userContact.isPresent())
+        // Find in user contact list if the toUserContact exists, if exists, throw and validation exception
+        if (findUserContact(user.getId(), toUserContact.getId()).isPresent())
             throw new ValidationException(ADD_USER_CONTACT_ALREADY_IN_LIST);
 
     }
 
-    public String confirmAccount(String confirmationToken) throws Exception {
+    private Optional<UserContact> findUserContact(Long userId, Long toUserContactId) {
+        return userContactService.findUserContactRelationship(userId, toUserContactId);
+    }
+
+    private UserContact saveUserContact(UserContact userContact) throws Exception {
+        return userContactService.saveUserContact(userContact);
+    }
+
+    public EventMessage confirmAccount(String confirmationToken) throws Exception {
         return userAccountService.confirmAccount(confirmationToken);
     }
 

@@ -36,7 +36,7 @@ public class GenderReferenceService extends BaseService<GenderReferenceRepo, Gen
 
             try {
 
-                return create(genderReference, GenderReferenceDTO.class);
+                return save(genderReference, GenderReferenceDTO.class);
 
             } catch (Exception ignored) {
 

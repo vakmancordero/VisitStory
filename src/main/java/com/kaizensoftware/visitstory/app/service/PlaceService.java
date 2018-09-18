@@ -48,7 +48,7 @@ public class PlaceService extends BaseService<PlaceRepo, Place> {
         try {
             return convertUtil.convert(findPlaceByName(placeCreateDTO.getName()), PlaceCreatedDTO.class);
         } catch (ValidationException ex) {
-            return create(placeCreateDTO, PlaceCreatedDTO.class);
+            return save(placeCreateDTO, PlaceCreatedDTO.class);
         }
     }
 

@@ -15,7 +15,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/permissionTypes")
+@RequestMapping("/api-visit-story/permissionTypes")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PermissionTypeController {
 

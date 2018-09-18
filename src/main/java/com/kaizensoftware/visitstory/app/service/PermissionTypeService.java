@@ -54,7 +54,7 @@ public class PermissionTypeService extends BaseService<PermissionTypeRepo, Permi
             return convertUtil.convert(permissionType, PermissionTypeCreatedDTO.class);
 
         } catch (ValidationException ex) {
-            return create(permissionTypeCreateDTO, PermissionTypeCreatedDTO.class);
+            return save(permissionTypeCreateDTO, PermissionTypeCreatedDTO.class);
         }
 
     }

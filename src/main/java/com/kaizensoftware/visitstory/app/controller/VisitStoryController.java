@@ -18,7 +18,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/visit-story")
+@RequestMapping("/api-visit-story/visit-story")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class VisitStoryController extends BaseController {
 

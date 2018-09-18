@@ -16,6 +16,7 @@ import com.kaizensoftware.visitstory.app.service.GenderReferenceService;
 import com.kaizensoftware.visitstory.app.service.mail.EmailService;
 import com.kaizensoftware.visitstory.common.service.BaseService;
 
+import com.kaizensoftware.visitstory.common.util.EventMessage;
 import org.springframework.core.env.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -62,7 +63,7 @@ public class UserAccountService extends BaseService<UserRepo, User> {
         objectUtil.merge(userCreate.getPhoneNumber(), userCreate);
 
         // Create the user
-        UserCreatedDTO userCreated = create(userCreate, UserCreatedDTO.class);
+        UserCreatedDTO userCreated = save(userCreate, UserCreatedDTO.class);
 
         // Send activation message mail
         sendActivationMessage(userCreated);
@@ -70,14 +71,14 @@ public class UserAccountService extends BaseService<UserRepo, User> {
         return userCreated;
     }
 
-    public String confirmAccount(String confirmationToken) throws Exception {
+    public EventMessage confirmAccount(String confirmationToken) throws Exception {
 
         UserConfirmAccountDTO userConfirmAccount = checkConfirmationToken(confirmationToken);
         userConfirmAccount.setEnabled(true);
 
         update(userConfirmAccount.getId(), userConfirmAccount, UserDTO.class, true);
 
-        return ACCOUNT_CONFIRMATION_MESSAGE.getMessage();
+        return ACCOUNT_CONFIRMATION_MESSAGE;
     }
 
     private void sendActivationMessage(UserCreatedDTO userCreated) {

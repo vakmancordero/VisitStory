@@ -23,7 +23,6 @@ import com.kaizensoftware.visitstory.app.dto.user_permission.UserPermissionDTO;
 import com.kaizensoftware.visitstory.app.dto.user_permission.create.*;
 
 // VisitStory DTOs
-import com.kaizensoftware.visitstory.app.dto.visit_story.VisitStoryDTO;
 import com.kaizensoftware.visitstory.app.dto.visit_story.comment.VisitStoryOnCreateCommentDTO;
 import com.kaizensoftware.visitstory.app.dto.visit_story.create.*;
 
@@ -66,7 +65,7 @@ public class VisitStoryService extends BaseService<VisitStoryRepo, VisitStory> {
 
     public VisitStoryCreatedDTO makeVisitStory(SimpleVisitStoryCreateDTO simpleVS) throws Exception {
 
-        // create a new instance of visitStory
+        // Create a new instance of visitStory
         VisitStoryCreateDTO visitStory = new VisitStoryCreateDTO();
 
         // Check if the current user exists
@@ -91,7 +90,7 @@ public class VisitStoryService extends BaseService<VisitStoryRepo, VisitStory> {
         visitStory.setPermission(permission);
 
         // Create the visitStory
-        VisitStoryCreatedDTO visitStoryCreated = create(visitStory, VisitStoryCreatedDTO.class);
+        VisitStoryCreatedDTO visitStoryCreated = save(visitStory, VisitStoryCreatedDTO.class);
 
         // Upload the content files and return its reference
         List<ContentDTO> content = uploadContent(simpleVS.getContents(), // The contentFiles
@@ -169,7 +168,7 @@ public class VisitStoryService extends BaseService<VisitStoryRepo, VisitStory> {
         // Convert the list to only IDs
         List<Long> userIds = userPermissions.stream().map(UserPermissionCreateDTO::getUserId).collect(Collectors.toList());
 
-        // Collect all the users and create a new UserPermission dto
+        // Collect all the users and save a new UserPermission dto
         return userService.findAllUsersIn(userIds).stream()
                 .map(user -> new UserPermissionDTO(convertUtil.convert(user, UserDTO.class)))
                 .collect(Collectors.toList());

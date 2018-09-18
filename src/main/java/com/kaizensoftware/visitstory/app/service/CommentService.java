@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 public class CommentService extends BaseService<CommentRepo, Comment> {
 
     public CommentCreateDTO addCommentVS(CommentCreateDTO commentCreate) throws Exception {
-        return create(commentCreate, CommentCreateDTO.class);
+        return save(commentCreate, CommentCreateDTO.class);
     }
 
 }

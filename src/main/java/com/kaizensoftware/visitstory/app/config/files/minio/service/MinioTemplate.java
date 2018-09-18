@@ -1,6 +1,5 @@
 package com.kaizensoftware.visitstory.app.config.files.minio.service;
 
-import lombok.Getter;
 import org.xmlpull.v1.XmlPullParserException;
 
 import io.minio.MinioClient;

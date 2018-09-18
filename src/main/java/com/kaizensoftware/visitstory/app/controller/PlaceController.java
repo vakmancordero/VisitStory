@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @RestController
-@RequestMapping("/places")
+@RequestMapping("/api-visit-story/places")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PlaceController {
 

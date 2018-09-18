@@ -19,4 +19,8 @@ public class UserContactService extends BaseService<UserContactRepo, UserContact
         return repository.findByUser_IdAndContact_Id(userId, contactId);
     }
 
+    public UserContact saveUserContact(UserContact userContact) throws Exception {
+        return super.save(userContact, UserContact.class);
+    }
+
 }

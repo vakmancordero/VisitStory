@@ -42,7 +42,7 @@ public class PasswordService extends BaseService<InvalidPasswordRepo, InvalidPas
         } catch (ValidationException ex) {
 
             try {
-                return create(invalidPassword, InvalidPasswordOutDTO.class);
+                return save(invalidPassword, InvalidPasswordOutDTO.class);
             } catch (Exception ignored) {
                 log.error("Error creating invalid password with value: {}", password);
             }

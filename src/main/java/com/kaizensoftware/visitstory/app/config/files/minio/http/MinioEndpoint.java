@@ -21,7 +21,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 @RestController
-@RequestMapping("${minio.endpoint.name:/minio}")
+@RequestMapping("/api-visit-story/${minio.endpoint.name:/minio}")
 @ConditionalOnProperty(name = "minio.endpoint.enable", havingValue = "true")
 public class MinioEndpoint {
 

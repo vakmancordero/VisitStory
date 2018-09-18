@@ -25,8 +25,11 @@ public enum EventMessage {
     NON_EXISTENT_PLACE(16, "The place with name %s does not exist."),
     INVALID_GENDER_REFERENCE(17, "The gender reference with id %d does not exist."),
     USER_CONTACT_REQUEST_SUCCESS(18, "The user contact invitation was successfully sent."),
-    ADD_USER_CONTACT_SAME_USER_ERROR(19, "The user contact cannot be the same as the current."),
-    ADD_USER_CONTACT_ALREADY_IN_LIST(20, "The user contact already exists in your user contact list.");
+    USER_CONTACT_REMOVED_SUCCESSFULLY(19, "The user contact was removed successfully."),
+    USER_CONTACT_BLOCKED_SUCCESSFULLY(20, "The user contact was blocked successfully."),
+    ADD_USER_CONTACT_SAME_USER_ERROR(21, "The user contact cannot be the same as the current."),
+    ADD_USER_CONTACT_ALREADY_IN_LIST(22, "The user contact already exists in your user contact list."),
+    ADD_USER_CONTACT_NOT_IN_LIST(23, "The user contact does not exists in your user contact list.");
 
     private Integer code;
     private String message;

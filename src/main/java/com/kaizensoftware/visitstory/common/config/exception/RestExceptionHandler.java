@@ -26,8 +26,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.persistence.EntityNotFoundException;
 
-@Order(Ordered.HIGHEST_PRECEDENCE)
-@ControllerAdvice
+//@Order(Ordered.HIGHEST_PRECEDENCE)
+//@ControllerAdvice
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
