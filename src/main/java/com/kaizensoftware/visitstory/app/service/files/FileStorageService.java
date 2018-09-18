@@ -3,6 +3,7 @@ package com.kaizensoftware.visitstory.app.service.files;
 import com.kaizensoftware.visitstory.app.config.files.minio.dto.MinioObject;
 import com.kaizensoftware.visitstory.app.config.files.minio.service.MinioTemplate;
 
+import io.minio.ObjectStat;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +25,8 @@ public class FileStorageService {
             String name = file.getOriginalFilename();
 
             minioTemplate.saveObject(bucketName, name, file.getInputStream(), file.getSize(), file.getContentType());
+
+            String bucketPolicy = minioTemplate.getBucketPolicy(bucketName);
 
             return new MinioObject(minioTemplate.getObjectInfo(bucketName, name), minioTemplate.getEndpoint());
 

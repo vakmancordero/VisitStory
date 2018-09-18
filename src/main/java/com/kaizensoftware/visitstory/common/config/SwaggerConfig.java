@@ -2,7 +2,6 @@ package com.kaizensoftware.visitstory.common.config;
 
 import com.kaizensoftware.visitstory.common.util.Constants;
 
-import org.apache.http.auth.AUTH;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,12 +42,7 @@ public class SwaggerConfig {
     @Value("${app.maintainer.url}")
     private String appMaintainerUrl;
 
-    @Value("#{servletContext.contextPath}")
-    private String servletContextPath;
-
     private static final String AUTH_SERVER = "http://localhost:8090/oauth";
-    private static final String CLIENT_ID = "fooClientIdPassword";
-    private static final String CLIENT_SECRET = "secret";
 
     @Bean
     public Docket placesDocket() {
@@ -78,7 +72,7 @@ public class SwaggerConfig {
 
                 .select()
                 .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.regex("/api-visit-story/.*"))
+                .paths(PathSelectors.regex(path))
                 .build()
 
                 .apiInfo(info())

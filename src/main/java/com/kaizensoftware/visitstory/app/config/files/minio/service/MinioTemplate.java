@@ -103,6 +103,9 @@ public class MinioTemplate {
         getMinioClient().removeObject(bucketName, objectName);
     }
 
+    public String getBucketPolicy(String bucketName) throws InvalidPortException, InvalidEndpointException, IOException, InvalidKeyException, NoSuchAlgorithmException, InsufficientDataException, BucketPolicyTooLargeException, InvalidObjectPrefixException, NoResponseException, InvalidBucketNameException, XmlPullParserException, InternalException, ErrorResponseException {
+        return getMinioClient().getBucketPolicy(bucketName);
+    }
 
     /**
      * Gets a Minio client

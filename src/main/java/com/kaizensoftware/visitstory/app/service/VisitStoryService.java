@@ -31,6 +31,7 @@ import com.kaizensoftware.visitstory.app.dto.visit_story.read.SimpleVisitStoryRe
 import com.kaizensoftware.visitstory.app.dto.visit_story.read.VisitStoryCurrentUserDTO;
 import com.kaizensoftware.visitstory.app.persistence.model.VisitStory;
 import com.kaizensoftware.visitstory.app.persistence.repository.VisitStoryRepo;
+import com.kaizensoftware.visitstory.app.service.files.ContentService;
 import com.kaizensoftware.visitstory.app.service.files.type.VSBucket;
 import com.kaizensoftware.visitstory.common.service.BaseService;
 
@@ -60,6 +61,7 @@ public class VisitStoryService extends BaseService<VisitStoryRepo, VisitStory> {
     private final PlaceService placeService;
     private final PermissionTypeService permissionTypeService;
     private final CommentService commentService;
+    private final ContentService contentService;
 
     private final FileStorageService fileStorageService;
 
@@ -99,6 +101,8 @@ public class VisitStoryService extends BaseService<VisitStoryRepo, VisitStory> {
         );
 
         visitStoryCreated.setContents(content);
+
+        content.forEach(contentService::uploadContent);
 
         return visitStoryCreated;
     }

@@ -68,11 +68,11 @@
 
 	<script type="text/javascript">
 
-		var baseUrl = 'http://localhost:8091';
+		var baseUrl = 'http://localhost:8090/api-visit-story';
 
         $.ajaxSetup({
             beforeSend: function (xhr) {
-                xhr.setRequestHeader("Authorization", 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzY3ODYyMDgsInVzZXJfbmFtZSI6ImFydHVyaC5zd0BnbWFpbC5jb20iLCJqdGkiOiI3NDUwNGU4MC1iMzZmLTQ4MDctOGFhMS1jYmYyNWU2NDNiZjYiLCJjbGllbnRfaWQiOiJmb29DbGllbnRJZFBhc3N3b3JkIiwic2NvcGUiOlsiZm9vIiwicmVhZCIsIndyaXRlIl0sIm9yZ2FuaXphdGlvbiI6ImFydHVyaC5zd0BnbWFpbC5jb20ifQ.j-9zBEOcHRFZQwu-m_KJWzxi-DY2MzWfR5lI6-6Ldjw');
+                xhr.setRequestHeader("Authorization", 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzczMTY1NTksInVzZXJfbmFtZSI6ImFydHVyaC5zd0BnbWFpbC5jb20iLCJqdGkiOiJiMjNjNTFkMy01ZDcwLTQ4ODEtYmNlYy01NzIzNzk4OTliOTIiLCJjbGllbnRfaWQiOiJmb29DbGllbnRJZFBhc3N3b3JkIiwic2NvcGUiOlsiZm9vIiwicmVhZCIsIndyaXRlIl0sIm9yZ2FuaXphdGlvbiI6ImFydHVyaC5zd0BnbWFpbC5jb20ifQ.57dirzr5byTuMpaA8B9m9Dz4EbJd0otdc-UfPKb1lhA');
             }
         });
 
@@ -154,10 +154,10 @@
                 }));
 
 	    	$.ajax({
-	    		url: "http://localhost:8091/visit-story",
-		        type: "POST",
+	    		url: baseUrl + '/visit-story',
+		        type: 'POST',
 		        headers: {
-         			"Content-Type": undefined
+         			'Content-Type': undefined
                 },
 		        data: formData,
 		        processData: false,

@@ -36,7 +36,7 @@ public class MinioObject {
         this.etag = os.etag();
         this.contentType = os.contentType();
 
-        this.path = String.format("%s/%S/%s", endpoint, this.bucketName, this.name);
+        this.path = String.format("%s/%s/%s", endpoint, this.bucketName, this.name);
     }
 
 }

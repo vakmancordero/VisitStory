@@ -1,10 +1,8 @@
 package com.kaizensoftware.visitstory.app.service.files.type;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
 public enum VSBucket {
 
     VISIT_STORY_MEDIA       ("visit-story-media"),
@@ -12,4 +10,7 @@ public enum VSBucket {
 
     private String bucketName;
 
+    VSBucket(String bucketName) {
+        this.bucketName = bucketName;
+    }
 }
