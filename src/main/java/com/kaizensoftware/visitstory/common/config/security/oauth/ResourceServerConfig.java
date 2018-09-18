@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
@@ -25,42 +24,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
 
-        http.
-                anonymous().disable()
+        http.anonymous().disable()
                 .requestMatchers().antMatchers("/api-visit-story/**")
                 .and().authorizeRequests()
                 .antMatchers("/api-visit-story/**").authenticated()
                 .and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
-
-//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).and()
-//                .authorizeRequests().antMatchers("/swagger*", "/v2/**").access("#oauth2.hasScope('read')").anyRequest().permitAll();
-
-//        http.csrf().disable()
-//                .authorizeRequests()
-//                .and()
-//                .exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler())
-//                .and()
-//                .authorizeRequests()
-//                .and()
-//                .httpBasic()
-//                .and()
-//                .logout();
-
-//        http.authorizeRequests()
-//                .antMatchers("/swagger-ui.html/**").permitAll()
-//                .antMatchers("/login").permitAll()
-//                .antMatchers("/oauth/token/revokeById/**").permitAll()
-//                .antMatchers("/tokens/**").permitAll()
-//                .antMatchers(POST, "/oauth/token/**").permitAll()
-//                .antMatchers(POST, "/users/register").permitAll()
-//                .antMatchers(POST, "/users/activate/**").permitAll()
-//                .anyRequest().authenticated()
-//                //.anyRequest().permitAll()
-//                .and().formLogin().permitAll()
-//                .and().csrf().disable();
-
-//        http.anonymous().disable().authorizeRequests().antMatchers("/api-visit-story/**").authenticated()
-//                .and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
     }
 
     @Override
