@@ -32,6 +32,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private JwtAccessTokenConverter accessTokenConverter;
+
+    @Autowired
+    private TokenStore tokenStore;
+
     @Override
     public void configure(final AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
 
@@ -56,9 +62,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Bean
     @Primary
-    public DefaultTokenServices tokenServices() {
+    public DefaultTokenServices asTokenServices() {
         final DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
-        defaultTokenServices.setTokenStore(tokenStore());
+        defaultTokenServices.setTokenStore(tokenStore);
         defaultTokenServices.setSupportRefreshToken(true);
         return defaultTokenServices;
     }
@@ -68,26 +74,26 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
         final TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
 
-        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), accessTokenConverter()));
+        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), accessTokenConverter));
 
-        endpoints.tokenStore(tokenStore())
+        endpoints.tokenStore(tokenStore)
                 .tokenEnhancer(tokenEnhancerChain)
                 .authenticationManager(authenticationManager);
     }
 
-    @Bean
-    public TokenStore tokenStore() {
-        return new JwtTokenStore(accessTokenConverter());
-    }
+//    @Bean
+//    public TokenStore asTokenStore() {
+//        return new JwtTokenStore(asAccessTokenConverter());
+//    }
 
-    @Bean
-    public JwtAccessTokenConverter accessTokenConverter() {
-        final JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-         converter.setSigningKey("123");
-//        final KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("mytest.jks"), "mypass".toCharArray());
-//        converter.setKeyPair(keyStoreKeyFactory.getKeyPair("mytest"));
-        return converter;
-    }
+//    @Bean
+//    public JwtAccessTokenConverter asAccessTokenConverter() {
+//        final JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+//         converter.setSigningKey("123");
+////        final KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("mytest.jks"), "mypass".toCharArray());
+////        converter.setKeyPair(keyStoreKeyFactory.getKeyPair("mytest"));
+//        return converter;
+//    }
 
     @Bean
     public TokenEnhancer tokenEnhancer() {

@@ -1,0 +1,72 @@
+debug: true
+
+server:
+  port: 7001
+
+spring:
+  jackson:
+    default-property-inclusion: always
+  security:
+    user:
+      name: visitstory
+      password: s3cr3t
+  datasource:
+    url: jdbc:mysql://localhost:3306/visitstory?serverTimezone=UTC
+    username: root
+    password:
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQLInnoDBDialect
+    show-sql: true
+    generate-ddl: false
+    properties:
+      hibernate.hbm2ddl.auto: create
+      hibernate.format_sql: true
+    hibernate:
+      ddl-auto: create
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  mail:
+    default-encoding: UTF-8
+    host: smtp.gmail.com
+    port: 587
+    username: visitstory.sw@gmail.com
+    password: jaqart_56923
+    properties.mail.smtp.auth: true
+    properties.mail.smtp.starttls.enable: true
+    protocol: smtp
+    test-connection: false
+
+logging:
+  file: /tmp/visitstory.log
+  level:
+    root: warn
+    org.springframework.web: warn
+    org.hibernate: error
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+
+visit-story:
+  account:
+    register:
+      context: localhost:8091/users
+
+minio:
+  endpoint:
+    enable: true
+    name: minio-endpoint
+  url: http://172.16.29.143:9000
+  access-key: 88KK56ONLRFF80GD25W4
+  secret-key: kJu/Uct3ug1/4sbgthDeTRf6+vm4wehc838ZdlqB
+
+app:
+  name: VisitStory
+  desc: VisitStory Demo App
+  version: 1.0.0
+  maintainer:
+    name: Arturo Cordero
+    email: arturo.cordero@bsdenterprise.com
+    url: arturo.cordero@bsdenterprise.com
